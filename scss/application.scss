@@ -2,42 +2,30 @@
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
-  background-image: url(images/perplex.JPG);
-  background-attachment: fixed;
-  background-size: 100%;
-  background-position: 10%;
+  background-image: url(images/totoro.JPG);
+  background-attachment: relative;
+  background-size: cover;
   background-repeat: no-repeat;
+  background-position: fill;
   background-color: #000000;
+  overflow: visible;
+  position: relative;
 }
 
 .navbar {
-  display: table;
-  /*
-	overflow: auto;
-	background-color: #df151d;
-	position: absolute;
-	bottom: 0;
-  top: 0;
-  right: 0;
-	height: 100%;
-  width: 30%;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  position: absolute;*/
+  overflow: hidden ;
+  background-color: #000000;
+  float: right;
+  width: 100%;
 }
 
 .navbar a {
   color: #ffffff;
+  float: left;
+  padding: 20px 16px;
   text-align: center;
-  padding: 16px;
   text-decoration: none;
-  font-size: 40px;
-  overflow: visible;
-  position: relative;
-  display: table-cell;
-  top: 50%;
-  margin-left: 90px;
+  font-size: 20px;
 }
 
 .navbar a:hover:not(.active) {
@@ -45,11 +33,27 @@ body {
   color: white;
 }
 
-img {
-  display: inline-block;
+.navbar a.active {
+  background-color: #451E3E;
+  color: white;
 }
 
 .clearfix {
+  overflow: auto;
+}
+
+.clearfix::after {
   content: "";
+  clear: both;
   display: table;
+}
+
+.main {
+  color: #ffffff;
+  font-size: 80px;
+  font-family: 'News Cycle', sans-serif;
+  position: absolute;
+  letter-spacing: 10px;
+  top: 350px;
+  left: 50%;
 }
