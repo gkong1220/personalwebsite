@@ -1,20 +1,38 @@
 @import 'normalize';
 
+//#051e3e • #251e3e • #451e3e • #651e3e
+
+$hme: #051e3e;
+$abt: #251e3e; 
+$exp: #451e3e;
+$crt: #651e3e;
+$space: #0F0F0F;
+$dark-blue: #011f4b;
+
 body {
   font-family: 'Nanum Gothic', sans-serif;
+  background-color: #000000;
+}
+
+body.home_page { 
   background-image: url(images/totoro.JPG);
   background-attachment: relative;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: fill;
-  background-color: #000000;
   overflow: visible;
   position: relative;
 }
 
+body.about_page {
+  background-color: #FFFFFF;
+  position: relative;
+}
+
 .navbar {
+  position: absolute;
   overflow: hidden ;
-  background-color: #000000;
+  background-color: $space;
   float: right;
   width: 100%;
 }
@@ -28,14 +46,57 @@ body {
   font-size: 20px;
 }
 
+/*
 .navbar a:hover:not(.active) {
   background-color: #555;
   color: white;
+}*/
+
+.navbar a.hme.active {
+  background-color: $hme;
 }
 
-.navbar a.active {
-  background-color: #451E3E;
-  color: white;
+.navbar a.hme:hover:not(.active) {
+  background-color: $dark-blue;
+}
+
+.navbar a.abt.active {
+  background-color: $abt;
+}
+
+.navbar a.abt:hover:not(.active) {
+  background-color: $abt;
+}
+
+.navbar a.exp.active {
+  background-color: $exp;
+}
+
+.navbar a.exp:hover:not(.active) {
+  background-color: $exp;
+}
+
+.navbar a.crt.active {
+  background-color: $crt;
+}
+
+.navbar a.crt:hover:not(.active) {
+  background-color: $crt;
+}
+
+img {
+  position: absolute;
+  display: inline-block;
+  width: 900px;
+  height: auto;
+  transform:rotate(270deg);
+  object-fit: contain;
+  left: 90px;
+  top: 500px;
+}
+
+.about_img {
+
 }
 
 .clearfix {
