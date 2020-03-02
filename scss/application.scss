@@ -19,7 +19,7 @@ body.home_page {
   background-attachment: relative;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: fill;
+  background-position: contain;
   overflow: visible;
   position: relative;
 }
@@ -84,19 +84,22 @@ body.about_page {
   background-color: $crt;
 }
 
-img {
+.crop_img {
   position: absolute;
-  display: inline-block;
-  width: 900px;
-  height: auto;
-  transform:rotate(270deg);
-  object-fit: contain;
+  top: 200px;
   left: 90px;
-  top: 500px;
+  width: 500px;
+  height: 600px;
+  overflow: hidden;
 }
 
-.about_img {
-
+.crop_img img {
+  display: inline-block;
+  position: absolute;
+  width: 900px;
+  height: auto;
+  object-fit: cover;
+  margin: -10px 1px 0px -200px;
 }
 
 .clearfix {
