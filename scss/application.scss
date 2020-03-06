@@ -8,42 +8,53 @@ $exp: #451e3e;
 $crt: #651e3e;
 $space: #0F0F0F;
 $dark-blue: #011f4b;
+$white: #ffffff;
+$pebble: #5C5C5C;
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
-  background-color: #000000;
+  position: absolute;
+  background-color:$white;
 }
 
 body.home_page { 
-  background-image: url(images/totoro.JPG);
-  background-attachment: relative;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: contain;
-  overflow: visible;
-  position: relative;
+  margin: auto;
+  width: 50%;
 }
 
 body.about_page {
   background-color: #FFFFFF;
-  position: relative;
+  position: absolute;
+}
+
+img {
+  width: 100px;
+}
+
+nav {
+  border-bottom: 3px solid $pebble;
+  padding: 15px;
 }
 
 .navbar {
-  position: absolute;
-  overflow: hidden ;
-  background-color: $space;
-  float: right;
-  width: 100%;
+  margin: auto;
+  position: fixed;
+  overflow: hidden;
+  top: 8%;
+  left: 25%;
+  //float: left;
+  width: 50%;
 }
 
 .navbar a {
-  color: #ffffff;
-  float: left;
-  padding: 20px 16px;
+  color: $pebble;
+  left: 60%;
+  position: relative;
+  font-size: 30px;
+  padding: 50px 20px 5px;
   text-align: center;
   text-decoration: none;
-  font-size: 20px;
+  border-bottom: 3px solid transparent;
 }
 
 /*
@@ -65,7 +76,7 @@ body.about_page {
 }
 
 .navbar a.abt:hover:not(.active) {
-  background-color: $abt;
+  border-bottom: 3px solid rgb(255, 217, 102);
 }
 
 .navbar a.exp.active {
@@ -81,7 +92,7 @@ body.about_page {
 }
 
 .navbar a.crt:hover:not(.active) {
-  background-color: $crt;
+  border-bottom: 3px solid rgb(255, 217, 102);
 }
 
 .crop_img {
@@ -104,20 +115,13 @@ body.about_page {
 
 .clearfix {
   overflow: auto;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
+  //position: absolute;
 }
 
 .main {
-  color: #ffffff;
-  font-size: 80px;
-  font-family: 'News Cycle', sans-serif;
-  position: absolute;
-  letter-spacing: 10px;
+  color: $pebble;
+  font-size: 25px;
+  position: relative;
   top: 350px;
-  left: 50%;
+  left: 25%;
 }
