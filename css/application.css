@@ -341,15 +341,21 @@ template {
   display: none;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: "Nanum Gothic", sans-serif;
-  position: absolute;
   background-color: #ffffff;
+  background-size: cover;
+  overflow: hidden;
 }
 
 body.home_page {
   margin: auto;
   width: 50%;
+  min-height: 100%;
 }
 
 body.about_page {
@@ -357,13 +363,21 @@ body.about_page {
   position: absolute;
 }
 
-img {
+body.home {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.face {
   width: 100px;
 }
 
 nav {
   border-bottom: 3px solid #5C5C5C;
   padding: 15px;
+  width: 50%;
+  margin: auto;
 }
 
 .navbar {
@@ -372,7 +386,6 @@ nav {
   overflow: hidden;
   top: 8%;
   left: 25%;
-  width: 50%;
 }
 
 .navbar a {
@@ -451,5 +464,41 @@ nav {
   font-size: 25px;
   position: relative;
   top: 350px;
-  left: 25%;
+  left: 20%;
+}
+
+.intro {
+  color: #ffd966;
+  background-color: #9c9a9a;
+  width: 300px;
+  padding: 10px;
+  font-style: italic;
+}
+
+.car {
+  max-width: 80%;
+  height: auto;
+}
+
+.overeasy {
+  z-index: 2;
+  float: middle;
+}
+
+.button {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 74px;
+  border-color: transparent transparent transparent #202020;
+  -webkit-transition: 100ms all ease;
+  -o-transition: 100ms all ease;
+  transition: 100ms all ease;
+  will-change: border-width;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 37px 0 37px 60px;
+}
+.button.pause {
+  border-style: double;
+  border-width: 0px 0 0px 60px;
 }

@@ -10,16 +10,26 @@ $space: #0F0F0F;
 $dark-blue: #011f4b;
 $white: #ffffff;
 $pebble: #5C5C5C;
+$gold: rgb(255, 217, 102);
+$batman: #9c9a9a;
+
+html {
+  height: 100%
+}
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
-  position: absolute;
   background-color:$white;
+  background-size: cover;
+  overflow: hidden;
+  //padding: 80px;
+  //height: 100%;
 }
 
 body.home_page { 
   margin: auto;
   width: 50%;
+  min-height: 100%;
 }
 
 body.about_page {
@@ -27,13 +37,21 @@ body.about_page {
   position: absolute;
 }
 
-img {
+body.home{
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.face {
   width: 100px;
 }
 
 nav {
   border-bottom: 3px solid $pebble;
   padding: 15px;
+  width: 50%;
+  margin: auto;
 }
 
 .navbar {
@@ -43,7 +61,6 @@ nav {
   top: 8%;
   left: 25%;
   //float: left;
-  width: 50%;
 }
 
 .navbar a {
@@ -115,7 +132,6 @@ nav {
 
 .clearfix {
   overflow: auto;
-  //position: absolute;
 }
 
 .main {
@@ -123,5 +139,44 @@ nav {
   font-size: 25px;
   position: relative;
   top: 350px;
-  left: 25%;
+  left: 20%;
+  
+}
+
+.intro {
+  color: $gold;
+  background-color: $batman;
+  width: 300px;
+  padding: 10px;
+  font-style: italic;
+}
+
+.car {
+  max-width: 80%;
+  height: auto;
+}
+
+.overeasy {
+  z-index: 2;
+  float: middle;
+}
+
+.button {
+  box-sizing: border-box;
+  height: 74px;
+  
+  border-color: transparent transparent transparent #202020;
+  transition: 100ms all ease;
+  will-change: border-width;
+  cursor: pointer;
+
+  // play state
+  border-style: solid;
+  border-width: 37px 0 37px 60px;
+
+  // paused state
+  &.pause {
+    border-style: double;
+    border-width: 0px 0 0px 60px;
+  }
 }
