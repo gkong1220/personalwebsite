@@ -385,7 +385,7 @@ nav {
 .navbar {
   margin: auto;
   position: fixed;
-  overflow: hidden;
+  overflow: auto;
   top: 8%;
   left: 25%;
 }
@@ -394,7 +394,7 @@ nav {
   color: #5C5C5C;
   left: 65%;
   position: relative;
-  font-size: 30px;
+  font-size: 1.5em;
   padding: 50px 20px 5px;
   text-align: right;
   text-decoration: none;
@@ -484,7 +484,7 @@ nav {
 
 iframe {
   position: fixed;
-  top: 30px;
+  top: 2%;
   margin: 0;
   padding: 0;
   border: none;
