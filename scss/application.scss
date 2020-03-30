@@ -1,4 +1,4 @@
-@import 'normalize';
+//@import 'normalize';
 
 //#051e3e • #251e3e • #451e3e • #651e3e
 
@@ -10,37 +10,40 @@ $space: #0F0F0F;
 $dark-blue: #011f4b;
 $white: #ffffff;
 $pebble: #5C5C5C;
+$wolf: rgb(141, 141, 141);
 $gold: rgb(255, 217, 102);
 $batman: #9c9a9a;
 
 html {
-  height: 100%
+  height: auto;
+  margin: auto;
+  width: 100%;
+ // overflow: auto;
 }
 
 body {
   font-family: 'Nanum Gothic', sans-serif;
   background-color:transparent;
   background-size: cover;
-  overflow: hidden;
+  overflow-y: auto;
   //padding: 80px;
   //height: 100%;
+  margin: auto;
 }
 
 body.home_page { 
-  margin: auto;
   width: 50%;
-  min-height: 100%;
+  overflow: scroll;
+  //min-height: 100%;
+}
+
+body.music_page{
+  width: 50%;
 }
 
 body.about_page {
   background-color: #FFFFFF;
   position: absolute;
-}
-
-body.home{
-  overflow: hidden;
-  height: 100%;
-  width: 100%;
 }
 
 img.face {
@@ -58,8 +61,8 @@ nav {
 
 .navbar {
   margin: auto;
-  position: fixed;
-  overflow: auto;
+  position: absolute;
+  //overflow: visible;
   top: 8%;
   left: 25%;
   //float: left;
@@ -69,7 +72,7 @@ nav {
   color: $pebble;
   left: 65%;
   position: relative;
-  font-size: 1.5em;
+  font-size: 30px;
   padding: 50px 20px 5px;
   text-align: right;
   text-decoration: none;
@@ -91,7 +94,7 @@ nav {
 }
 
 .navbar a.abt.active {
-  background-color: $abt;
+  border-bottom: 3px solid rgb(255, 217, 102);
 }
 
 .navbar a.abt:hover:not(.active) {
@@ -114,13 +117,91 @@ nav {
   border-bottom: 3px solid rgb(255, 217, 102);
 }
 
+.container {
+  text-align: center;
+  overflow: auto;
+  position: absolute;
+  top: 15%;
+  height: auto;
+  width: auto;
+  display: inline-block;
+  margin-top: 100px;
+  z-index: -1;
+}
+
+.quote:hover{
+  line-height: 1.4;
+  //color: $pebble;
+  height: 600px;
+  width: 800px;
+  background:url(https://media.giphy.com/media/QxG0WzYOWH0e3qXgZY/giphy.gif);
+  //background-size: cover;
+  background-repeat: repeat;
+  font-size: 100px;
+  -webkit-text-fill-color:transparent;
+  -webkit-background-clip: text;
+}
+
+.quote{
+  line-height: 1.4;
+  color: $wolf;
+  height: 600px;
+  width: 800px;
+  font-size: 100px;
+}
+
+.asap {
+  right: 100px;
+  //padding-top:10px;
+  width: 1000px;
+  height: auto;
+  color: $wolf;
+  position: relative;
+  font-size: 20px;
+  text-align: right;
+}
+
+.norm-text {
+  padding-top: 150px;
+  //padding-bottom: 150px;;
+  width: 1000px;
+  height: auto;
+  color: $wolf;
+  position: relative;
+  font-size: 18px;
+  text-align: justify;
+}
+
+.social-icons {
+  position: relative;
+  left: 15%;
+  padding-top: 400px;
+  padding-bottom: 200px;
+  width: 70%;
+  display: inline-block;
+}
+
+.column {
+  float: left;
+  width: 10%;
+  padding: 5px;
+  margin: auto;
+}
+
+.social {
+  position: absolute;
+  padding: 20px;
+  justify-content: center;
+  display: inline-block;
+}
+
 .crop_img {
   position: absolute;
   top: 200px;
   left: 90px;
   width: 500px;
   height: 600px;
-  overflow: hidden;
+  //overflow: hidden;
 }
 
 .crop_img img {
@@ -133,7 +214,7 @@ nav {
 }
 
 .clearfix {
-  overflow: auto;
+  //overflow: auto;
 }
 
 .main {
@@ -154,13 +235,13 @@ nav {
 }
 
 .profile {
-  overflow: visible;
+  //overflow: visible;
   top: 8%;
 }
 
 iframe {
-  position: fixed;
-  top: 2%;
+  position: absolute;
+  top: 30px;
   margin: 0;
   padding: 0;
   border: none;
@@ -206,6 +287,15 @@ iframe {
 
   // hover state
   &:hover {
-    
+    border-color: transparent transparent transparent
   }
+}
+
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.example {
+  -ms-overflow-style: none;
 }
