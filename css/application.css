@@ -104,6 +104,20 @@ nav {
   border-bottom: 3px solid #ffd966;
 }
 
+canvas {
+  position: relative;
+  width: auto;
+  left: 20%;
+  top: 30%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 5em;
+}
+
 .container {
   text-align: center;
   overflow: auto;
@@ -120,6 +134,34 @@ nav {
   /* Internet Explorer */
   /* Opera < 12.1 */
   animation: fadein 2s;
+}
+
+.creatives-content {
+  position: relative;
+  margin-top: 20%;
+  width: 100%;
+  left: 10em;
+}
+
+.creatives-title {
+  font-size: 5em;
+  color: #8d8d8d;
+  position: relative;
+}
+
+i {
+  border: solid #8d8d8d;
+  border-width: 0 1em 1em 0;
+  display: inline-block;
+  padding: 1em;
+  position: relative;
+  top: 10em;
+}
+
+.left {
+  -ms-transform: rotate(135deg);
+      transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
 }
 
 .quote:hover {
@@ -153,6 +195,7 @@ nav {
           justify-content: right;
   width: 5%;
   margin-right: 0%;
+  padding-right: 0.1em;
 }
 .stuffs:hover {
   background-color: #ffd966;
@@ -181,7 +224,7 @@ nav {
 .social-icons {
   position: relative;
   left: 15%;
-  padding-top: 400px;
+  padding-top: 10em;
   padding-bottom: 200px;
   width: 70%;
   display: inline-block;
@@ -272,7 +315,7 @@ iframe {
   right: 148px;
   outline: none;
   opacity: 0.6;
-  border-color: transparent transparent transparent #202020;
+  border-color: transparent transparent transparent #8d8d8d;
   -webkit-transition: 100ms all ease;
   -o-transition: 100ms all ease;
   transition: 100ms all ease;
@@ -286,7 +329,7 @@ iframe {
   border-width: 0px 0 0px 30px;
 }
 .button:hover {
-  border-color: transparent transparent transparent;
+  border-color: transparent transparent transparent #202020;
 }
 
 .example::-webkit-scrollbar {
