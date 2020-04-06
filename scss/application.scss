@@ -1,6 +1,9 @@
-//@import 'normalize';
+@import 'normalize';
 
 //#051e3e • #251e3e • #451e3e • #651e3e
+
+@media screen and (max-width: 320px) { @viewport { width: 320px; } }   
+@media screen and (min-width: 768px) and (max-width: 959px) { @viewport { width: 768px; } }
 
 $hme: #051e3e;
 $abt: #251e3e; 
@@ -63,13 +66,13 @@ body.about_page {
 
 img.face {
   position: absolute;
-  width: 100px;
+  width: 35vw;
   z-index: -1;
 }
 
 nav {
-  border-bottom: 3px solid $pebble;
-  padding: 15px;
+  border-bottom: 0.1em solid $pebble;
+  padding: 1.2em;
   width: 50%;
   margin: auto;
 }
@@ -87,11 +90,11 @@ nav {
   color: $pebble;
   left: 65%;
   position: relative;
-  font-size: 30px;
-  padding: 50px 20px 5px;
+  font-size: 1.85em;
+  padding: 3em 0.5em 0.31em;
   text-align: right;
   text-decoration: none;
-  border-bottom: 3px solid transparent;
+  border-bottom: 0.1em solid transparent;
 }
 
 /*
@@ -109,19 +112,19 @@ nav {
 }
 
 .navbar a.abt.active {
-  border-bottom: 3px solid rgb(255, 217, 102);
+  border-bottom: 0.1em solid rgb(255, 217, 102);
 }
 
 .navbar a.abt:hover:not(.active) {
-  border-bottom: 3px solid rgb(255, 217, 102);
+  border-bottom: 0.1em solid rgb(255, 217, 102);
 }
 
 .navbar a.crt.active {
-  border-bottom: 3px solid rgb(255, 217, 102);
+  border-bottom: 0.1em solid rgb(255, 217, 102);
 }
 
 .navbar a.crt:hover:not(.active) {
-  border-bottom: 3px solid rgb(255, 217, 102);
+  border-bottom: 0.1em solid rgb(255, 217, 102);
 }
 
 canvas {
@@ -142,7 +145,7 @@ canvas {
   height: auto;
   width: auto;
   display: inline-block;
-  margin-top: 100px;
+  margin-top: 3%;
   z-index: -1;
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 2s; /* Firefox < 16 */
@@ -182,12 +185,12 @@ i {
 .quote:hover{
   line-height: 1.4;
   //color: $pebble;
-  height: 600px;
-  width: 800px;
+  height: 30vh;
+  width: 40vw;
   background:url(https://media.giphy.com/media/QxG0WzYOWH0e3qXgZY/giphy.gif);
   //background-size: cover;
   background-repeat: repeat;
-  font-size: 100px;
+  font-size: 5vw;
   -webkit-text-fill-color:transparent;
   -webkit-background-clip: text;
 }
@@ -195,9 +198,9 @@ i {
 .quote{
   line-height: 1.4;
   color: $wolf;
-  height: 600px;
-  width: 800px;
-  font-size: 100px;
+  height: 30vh;
+  width: 40vw;
+  font-size: 5vw;
 }
 
 .stuffs{
@@ -218,13 +221,14 @@ i {
 }
 
 .asap {
-  right: 100px;
+  position: relative;
+  right: 12vw;
   //padding-top:10px;
-  width: 1000px;
+  width: 100vw;
   height: auto;
   color: $wolf;
   position: relative;
-  font-size: 20px;
+  font-size: 2.5vw;
   text-align: right;
 }
 
