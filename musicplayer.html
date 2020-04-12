@@ -8,13 +8,23 @@
 		<link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
 	</head>
 	<body class="music_page", class="clearfix">
-		<img src="css/images/home.jpg" class="face">
-		<button class='button'></button>
-		<audio id="audioPlayer" loop>
-			<source src="Coffee shop vibes....mp3" type="audio/mpeg" class="player">
-		  Your browser does not support the audio element.
-		</audio>
+		<header id="main_navigation">
+			<button class='button'></button>
+			<audio id="audioPlayer" loop>
+				<source src="Coffee shop vibes....mp3" type="audio/mpeg" class="player">
+				Your browser does not support the audio element.
+			</audio>
+			<nav class="navbar">
+				<a class="crt" href="creatives.html">Creatives</a>
+				<a class="abt active" href="index.html">Home</a>
+				<div class="profile">
+					<img src="css/images/home.jpg" class="face">
+				</div>
+			</nav>
+		</header>
 		<script src="css/jscripts/jquery-3.4.1.min.js"></script>
 		<script src="css/jscripts/playtoggle.js"></script>
+		<iframe class="actual-page" src="index.html">
+		</iframe>
 	</body>
 </html>
