@@ -347,6 +347,43 @@ html {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: "Nanum Gothic", sans-serif;
+  position: relative;
+  background-color: transparent;
+  background-size: cover;
+  width: 50vw;
+  height: 100vw;
+  margin-left: 25vw;
+  margin-right: 25vw;
+}
+
+body.home_page {
+  overflow: scroll;
+  height: auto;
+}
+
+body.creatives-pages {
+  text-align: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body.creatives-landing {
+  text-align: left;
+  overflow: hidden;
+}
+
+body.about_page {
+  background-color: #FFFFFF;
+  position: absolute;
+}
+
 .actual-page {
   top: 5%;
   position: absolute;
@@ -365,38 +402,6 @@ body.music_page {
   z-index: -1;
 }
 
-body {
-  font-family: "Nanum Gothic", sans-serif;
-  position: relative;
-  background-color: transparent;
-  background-size: cover;
-  width: 50vw;
-  height: 100vw;
-  margin-left: 25vw;
-  margin-right: 25vw;
-}
-
-body.home_page {
-  overflow: scroll;
-}
-
-body.creatives-pages {
-  text-align: center;
-  overflow: hidden;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-body.creatives-landing {
-  overflow: hidden;
-}
-
-body.about_page {
-  background-color: #FFFFFF;
-  position: absolute;
-}
-
 header {
   z-index: 1;
   position: relative;
@@ -406,15 +411,28 @@ header {
   background-color: #ffffff;
 }
 
+.atari-body {
+  overflow: hidden;
+}
+
+.opening-body {
+  overflow: auto;
+}
+
+.opening-contents {
+  width: 40vw;
+  margin: 0 auto;
+}
+
 .creatives-title {
   top: 25vh;
   position: relative;
   font-size: 3.4rem;
   color: #8d8d8d;
-  width: 30%;
   -webkit-box-pack: left;
       -ms-flex-pack: left;
           justify-content: left;
+  width: 15%;
   margin-left: 0%;
   -webkit-animation: fadein 2s;
   /* Safari, Chrome and Opera > 12.1 */
@@ -422,22 +440,54 @@ header {
   /* Internet Explorer */
   /* Opera < 12.1 */
   animation: fadein 2s;
+  word-spacing: 9999rem;
 }
 
 .creatives-content-title {
+  display: block;
   text-align: left;
-  text-justify: left;
   top: 15vh;
   font-size: 3.4rem;
   position: relative;
-  width: 20%;
+  width: 10%;
+  margin: 0;
+  padding: 0;
   color: #ffd966;
-  -webkit-animation: fadein 2s;
-  /* Safari, Chrome and Opera > 12.1 */
-  /* Firefox < 16 */
-  /* Internet Explorer */
-  /* Opera < 12.1 */
-  animation: fadein 2s;
+}
+
+.creatives-content-subtitle {
+  position: relative;
+  text-align: left;
+  font-size: 1.5rem;
+  color: #5C5C5C;
+  top: 17vh;
+}
+
+.creatives-content-illustration {
+  position: relative;
+  height: auto;
+  width: 100%;
+  top: 20vh;
+  display: inline-block;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.creatives-content-description {
+  position: relative;
+  text-align: justify;
+  font-size: 1.3rem;
+  color: #5C5C5C;
+  top: 24vh;
+  line-height: 2;
+  width: 40vw;
+  margin: 0 auto;
+}
+
+.creatives-content-list {
+  text-align: right;
+  list-style: none;
 }
 
 ul.atari-rules {
@@ -454,6 +504,38 @@ ul.atari-rules {
   list-style-position: inside;
   padding-bottom: 1vh;
   -webkit-padding-start: 0;
+}
+
+.opening-player {
+  position: relative;
+  top: 30vh;
+  text-align: left;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+}
+
+.opening-list {
+  color: #5C5C5C;
+  text-decoration: none;
+  top: 32vh;
+  position: relative;
+  text-align: center;
+  list-style: none;
+  -webkit-padding-start: 0;
+  font-style: italic;
+  width: auto;
+  padding-bottom: 0.3rem;
+  line-height: 2rem;
+}
+
+.opening-downloads {
+  padding-bottom: 0.3rem;
+  text-decoration: none;
+  color: #5C5C5C;
+}
+.opening-downloads:hover {
+  color: #ffd966;
 }
 
 nav {
@@ -531,9 +613,9 @@ canvas {
 }
 
 .container {
-  overflow: auto;
+  overflow: visible;
   position: relative;
-  height: auto;
+  height: 100vh;
   width: 50vw;
   display: inline-block;
   margin-top: 10vh;
@@ -580,14 +662,14 @@ canvas {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  text-align: justify;
+  text-align: center;
 }
 
 .social-icons {
   text-align: center;
   position: relative;
-  padding-top: 7rem;
-  padding-bottom: 10rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   width: 30vw;
   height: 2vh;
   margin: 0 auto;
@@ -652,7 +734,6 @@ a.stuffs {
   font-style: italic;
   text-decoration: none;
   font-size: 1.5em;
-  left: 95%;
   -webkit-box-pack: right;
       -ms-flex-pack: right;
           justify-content: right;
@@ -695,17 +776,14 @@ a.stuffs:hover {
   left: 20%;
 }
 
-a {
+a.arrow {
   top: 10vh;
   text-decoration: none;
   color: #dbd9d9;
   position: relative;
 }
-a:hover {
-  -webkit-transition: all 1000ms ease;
-  -o-transition: all 1000ms ease;
-  transition: all 1000ms ease;
-  color: #ffd966;
+a.arrow:hover {
+  color: #f8c018;
 }
 
 a.crt {

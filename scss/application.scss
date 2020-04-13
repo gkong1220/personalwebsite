@@ -21,21 +21,8 @@ html {
  // overflow: auto;
 }
 
-.actual-page {
-  top: 5%;
-  position: absolute;
-  display: flex;
-  //margin: 0 auto;
-  width: 100%;
-  height: 100%;
-}
-
-body.music_page {
-  overflow: hidden;
-  margin: 0 auto;
-  height: 100vh;
-  width: 100vw;
-  z-index: -1;
+a {
+  text-decoration: none;
 }
 
 body {
@@ -53,22 +40,40 @@ body.home_page {
   //width: 50vw;
   //sjustify-content: right;
   overflow: scroll;
+  height: auto;
   //min-height: 100%;
 }
 
 body.creatives-pages {
   text-align: center;
-  overflow: hidden;
   justify-content: center;
 }
 
 body.creatives-landing {
+  text-align: left;
   overflow: hidden;
 }
 
 body.about_page {
   background-color: #FFFFFF;
   position: absolute;
+}
+
+.actual-page {
+  top: 5%;
+  position: absolute;
+  display: flex;
+  //margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+body.music_page {
+  overflow: hidden;
+  margin: 0 auto;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
 }
 
 header {
@@ -80,34 +85,78 @@ header {
   background-color: $white;
 }
 
+.atari-body {
+  overflow: hidden;
+}
+
+.opening-body {
+  overflow: auto;
+}
+
+.opening-contents {
+  width: 40vw;
+  margin: 0 auto;
+}
+
 .creatives-title {
   top: 25vh;
   position: relative;
   font-size: 3.4rem;
   color: $wolf;
-  width: 30%;
   justify-content: left;
+  width: 15%;
   margin-left: 0%;
   -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 2s; /* Firefox < 16 */
   -ms-animation: fadein 2s; /* Internet Explorer */
   -o-animation: fadein 2s; /* Opera < 12.1 */
   animation: fadein 2s;
+  word-spacing: 9999rem;
 }
 
 .creatives-content-title {
+  display: block;
   text-align: left;
-  text-justify: left;
   top: 15vh;
   font-size: 3.4rem;
   position: relative;
-  width: 20%;
+  width: 10%;
+  margin: 0;
+  padding: 0;
   color: rgb(255, 217, 102);
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
-  -o-animation: fadein 2s; /* Opera < 12.1 */
-  animation: fadein 2s;
+}
+
+.creatives-content-subtitle {
+  position: relative;
+  text-align: left;
+  font-size: 1.5rem;
+  color: $pebble;
+  top: 17vh;
+}
+
+.creatives-content-illustration {
+  position: relative;
+  height: auto;
+  width: 100%;
+  top: 20vh;
+  display: inline-block;
+  justify-content: center;
+}
+
+.creatives-content-description {
+  position: relative;
+  text-align: justify;
+  font-size: 1.3rem;
+  color: $pebble;
+  top: 24vh;
+  line-height: 2;
+  width: 40vw;
+  margin: 0 auto;
+}
+
+.creatives-content-list {
+  text-align: right;
+  list-style: none;
 }
 
 ul.atari-rules {
@@ -124,6 +173,36 @@ ul.atari-rules {
   list-style-position: inside;
   padding-bottom: 1vh;
   -webkit-padding-start: 0;
+}
+
+.opening-player {
+  position: relative;
+  top: 30vh;
+  text-align: left;
+  justify-content: left;
+}
+
+.opening-list {
+  color: $pebble;
+  text-decoration: none;
+  top: 32vh;
+  position: relative;
+  text-align: center;
+  list-style: none;
+  -webkit-padding-start: 0;
+  font-style: italic;
+  width: auto;
+  padding-bottom: 0.3rem;
+  line-height: 2rem;
+}
+
+.opening-downloads {
+  padding-bottom: 0.3rem;
+  text-decoration: none;
+  color: $pebble;
+  &:hover {
+    color: $gold;
+  }
 }
 
 nav {
@@ -210,9 +289,9 @@ canvas {
 }
 
 .container {
-  overflow: auto;
+  overflow: visible;
   position: relative;
-  height: auto;
+  height: 100vh;
   width: 50vw;
   display: inline-block;
   margin-top: 10vh;
@@ -260,15 +339,15 @@ canvas {
   position: relative;
   font-size: 1rem;
   display: flex;
-  text-align: justify;
+  text-align: center;
 }
 
 .social-icons {
   text-align: center;
   position: relative;
   //margin-top: 1em;
-  padding-top: 7rem;
-  padding-bottom: 10rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   width: 30vw;
   height: 2vh;
   margin: 0 auto;
@@ -323,7 +402,6 @@ a.stuffs{
   font-style: italic;
   text-decoration: none;
   font-size: 1.5em;
-  left: 95%;
   justify-content: right;
   width: 5%;
   margin-right: 0%;
@@ -368,19 +446,14 @@ a.stuffs{
   
 }
 
-a {
+a.arrow {
   top: 10vh;
   text-decoration: none;
   color: rgb(219, 217, 217);
   position: relative;
 
   &:hover {
-  -webkit-transition: all 1000ms ease;
-  -moz-transition: all 1000ms ease;
-  -ms-transition: all 1000ms ease;
-  -o-transition: all 1000ms ease;
-  transition: all 1000ms ease;
-  color: rgb(255, 217, 102);
+  color: rgb(248, 192, 24);
   //border-bottom: 0.1em solid rgb(255, 217, 102);
   }
 }
