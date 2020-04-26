@@ -412,7 +412,7 @@ header {
 }
 
 .atari-body {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .opening-body {
@@ -420,7 +420,7 @@ header {
 }
 
 .opening-contents {
-  width: 40vw;
+  width: 50vw;
   margin: 0 auto;
 }
 
@@ -463,6 +463,19 @@ header {
   top: 17vh;
 }
 
+.opening-rec {
+  padding-top: 2.5rem;
+  position: relative;
+  top: 30vh;
+}
+
+.opening-score {
+  text-align: left;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  top: 35vh;
+}
+
 .creatives-content-illustration {
   position: relative;
   height: auto;
@@ -481,8 +494,6 @@ header {
   color: #5C5C5C;
   top: 24vh;
   line-height: 2;
-  width: 40vw;
-  margin: 0 auto;
 }
 
 .creatives-content-list {
@@ -509,6 +520,7 @@ ul.atari-rules {
 .opening-player {
   position: relative;
   top: 30vh;
+  width: 50vw;
   text-align: left;
   -webkit-box-pack: left;
       -ms-flex-pack: left;
@@ -520,12 +532,12 @@ ul.atari-rules {
   text-decoration: none;
   top: 32vh;
   position: relative;
-  text-align: center;
+  text-align: left;
   list-style: none;
   -webkit-padding-start: 0;
   font-style: italic;
   width: auto;
-  padding-bottom: 0.3rem;
+  padding-bottom: 10rem;
   line-height: 2rem;
 }
 
@@ -608,8 +620,8 @@ img.face {
 canvas {
   position: relative;
   width: auto;
-  top: 15vh;
   display: inline-block;
+  padding-top: 0.1rem;
 }
 
 .container {
@@ -848,6 +860,14 @@ iframe {
 }
 .button:hover {
   border-color: transparent transparent transparent #202020;
+}
+
+.leader-form {
+  position: relative;
+  height: auto;
+  width: 100%;
+  display: inline-block;
+  top: 100vh;
 }
 
 .example::-webkit-scrollbar {
