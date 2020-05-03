@@ -12,6 +12,8 @@ var holeRadius = canvas.width / 16;
 var columnBottoms = [5, 11, 17, 23, 29, 35, 41];
 var topYCoords = null;
 var topXCoords = [];
+var cpuScores = [0, 0, 0, 0, 0, 0, 0];
+var playerScores = [0, 0, 0, 0, 0, 0, 0];
 var holes = [];
 var mouseLoc = [];
 var mouseClickLoc = [];
@@ -20,10 +22,14 @@ var playerTurn = true;
 var winner = null;
 var winningHoles = [];
 var keysDown = {};
+var mouseDown = false;
+
+manila = "#4a7cff";
+soviet = "#fe5353";
 
 var player = new Player();
 var board = new Board();
-var chipDropped = new DropChip("red", 0, null);
+var chipDropped = new DropChip(null, 0, null);
 var cpu = new CPU();
 
 window.onload = function () {
@@ -32,10 +38,14 @@ window.onload = function () {
 };
 
 window.addEventListener("keydown", function (event) {
+    if (event.keyCode == 86) {
+        mouseDown = true;
+    }
     keysDown[event.keyCode] = true;
 }, false);
 
 window.addEventListener("keyup", function (event) {
+    mouseDown = false;
     delete keysDown[event.keyCode];
 });
 
@@ -48,6 +58,14 @@ window.addEventListener("click", function(event) {
     var rect = canvas.getBoundingClientRect();
     mouseClickLoc = [event.clientX - rect.left, event.clientY - rect.top];
 }, false );
+
+window.addEventListener("mousedown", function(event) {
+    //mouseDown = true;
+});
+
+window.addEventListener("mouseup", function(event) {
+    //mouseDown = false;
+});
 
 var step = function () {
     update();
@@ -64,7 +82,7 @@ var update = function() {
 };
 
 var render = function () {
-    context.fillStyle = "yellow";
+    context.fillStyle = "#ffffff";
     context.fillRect(0, 0, canvas.width, canvas.height);
     player.render();
     cpu.render();
@@ -72,8 +90,33 @@ var render = function () {
     board.render();
 };
 
+var determineException = function(holeIndex) {
+    currentHoleCol = Math.floor(holeIndex/6);
+
+    totalExceptions = [];
+
+    if (currentHoleCol in colExceptions) {
+        totalExceptions.push.apply(totalExceptions, colExceptions[currentHoleCol]);
+    } 
+
+    currentHoleRow = holeIndex - (currentHoleCol * 6);
+    if (currentHoleRow in rowExceptions) {
+        totalExceptions.push.apply(totalExceptions, rowExceptions[currentHoleRow]);
+    } 
+
+    totalExceptions = totalExceptions.sort((function (a, b) { return a - b }));
+    for (var i = 0; i < totalExceptions.length - 1; i++) {
+        if (totalExceptions[i] - totalExceptions[i+1] == 0) {
+            totalExceptions.splice(i, 1);
+        }
+    }
+    return totalExceptions;
+};
+
+
 function Board() {
     this.fill = null;
+    this.highlightedColumn = null;
     this.holes = [];
     for (col = 1; col < 8; col++) {
         for (row = 1; row < 7; row++) {
@@ -87,31 +130,53 @@ function Board() {
 }
 
 Board.prototype.update = function(hole, owner) {
-    hole[1] = owner;
+    hole[1] = owner
+    var four = this.neighbours(hole, owner)[1];
+    if (four) {
+        winningHoles = four;
+        winner = owner;
+    } else if (owner == "player") {
+        for (var column = 0; column < 7; column++) {
+            if (cpuScores[column] != null) {
+                for (var i = 0; i < 6; i++) {
+                    var totalHoleScore = 0;
+                    potentialOwners = ["cpu", "player"];
+                    if (this.holes[columnBottoms[column] - i][1] == null) {
+                        potentialHole = this.holes[columnBottoms[column] - i];
+                        for (var ownerPtr of potentialOwners) {
+                            console.log(ownerPtr);
+                            var posScores = this.neighbours(potentialHole, ownerPtr)[0];
+                            console.log(posScores);
+                            for (const [key, value] of Object.entries(posScores)) {
+                                totalHoleScore += (Math.pow(value, value));
+                            }
+                            if (ownerPtr == "cpu") {
+                                cpuScores[column] = totalHoleScore;
+                            } else {
+                                playerScores[column] = totalHoleScore;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        console.log(cpuScores);
+        console.log(playerScores);
+    }
+};
+
+Board.prototype.neighbours = function(hole, owner) {
+    //hole[1] = owner;
     checkIndices = {1: 1, 5: 1, 6: 1, 7: 1};
     colExceptions = {0: [-7, -6, -5], 6: [5, 6, 7]};
     rowExceptions = {0: [-7, -1, 5], 5: [-5, 1, 7]};
 
     currentHole = this.holes.indexOf(hole);
-    currentHoleCol = Math.floor(currentHole/6);
 
-    totalExceptions = [];
-
-    if (currentHoleCol in colExceptions) {
-        totalExceptions.push.apply(totalExceptions, colExceptions[currentHoleCol]);
-    } 
-    currentHoleRow = currentHole - (currentHoleCol * 6);
-    if (currentHoleRow in rowExceptions) {
-        totalExceptions.push.apply(totalExceptions, rowExceptions[currentHoleRow]);
-    } 
-    totalExceptions = totalExceptions.sort((function (a, b) { return a - b }));
-    for (var i = 0; i < totalExceptions.length - 1; i++) {
-        if (totalExceptions[i] - totalExceptions[i+1] == 0) {
-            totalExceptions.splice(i, 1);
-        }
-    }
-
+    baseExceptions = determineException(currentHole);
     console.log(currentHole);
+    //console.log(totalExceptions);
     for (var index in checkIndices) {
         index = parseInt(index, 10);
         var checkleft = true;
@@ -120,60 +185,78 @@ Board.prototype.update = function(hole, owner) {
         var rightCount = currentHole;
         var leftCount = currentHole;
         var linedHoles = [this.holes[currentHole][0]];
-        console.log(index);
-        while (resultNotFound && winner == null) {
+        leftExceptions = baseExceptions;
+        rightExceptions = baseExceptions;
+        //console.log(index);
+
+        while (resultNotFound) {
+            //console.log(leftExceptions);
             leftCount -= index;
-            if (-index in totalExceptions) {
-                console.log("exception");
-                checkLeft = false;
+            if (leftExceptions.includes(-index) && checkleft) {
+                checkleft = false;
             } else if (typeof this.holes[leftCount] != "undefined" && this.holes[leftCount][1] == owner && checkleft) {
                 //console.log(leftCount);
                 //console.log(this.holes[leftCount][1]);
                 linedHoles.unshift(this.holes[leftCount][0])
                 checkIndices[index] += 1;
-            } else {
+                leftExceptions = determineException(leftCount);
+            } else if (checkleft) {
                 checkleft = false;
             }
+
+            //console.log(rightExceptions);
             rightCount += index;
-            if (index in totalExceptions) {
-                console.log("exception");
+            if (rightExceptions.includes(index) && checkright) {
                 checkright = false;
             } else if (typeof this.holes[rightCount] != "undefined" && this.holes[rightCount][1] == owner && checkright) {
                 //console.log(rightCount);
                 //console.log(this.holes[rightCount][1]);
                 linedHoles.push(this.holes[rightCount][0])
                 checkIndices[index] += 1;
-            } else {
+                rightExceptions = determineException(rightCount);
+            } else if (checkright) {
                 checkright = false;
             }
-            if (checkIndices[index] == 4) {
-                checkIndices[index] = 1;
+
+            if (checkIndices[index] >= 4) {
+                //checkIndices[index] = 1;
                 console.log("winner!");
+                return [checkIndices, linedHoles];
+                /*
                 winningHoles = linedHoles;
                 winner = owner;
-                resultNotFound = false;
+                resultNotFound = false;*/
             }
             if (!checkleft && !checkright) {
-                console.log("nonefound");
-                checkIndices[index] = 1;
+                //console.log("nonefound");
+                //checkIndices[index] = 1;
                 resultNotFound = false;
             }
         }
     }
+    return [checkIndices, null];
 };
 
 Board.prototype.render = function() {
     for (var i = 0; i < this.holes.length; i ++) {
         if (this.holes[i][1] == "player") {
-            this.fill = "blue";
+            this.fill = manila;
         } else if (this.holes[i][1] == "cpu") {
-            this.fill = "red";
+            this.fill = soviet;
         } else {
-            this.fill = "rgba(0, 0, 0, 0.01)";
+            this.fill = "rgba(0, 0, 0, 0.0001)";
+        }
+        //var stroke = "white";
+        if (mouseDown) {
+            var stroke = "rgb(141, 141, 141)";
+        } else {
+            var stroke = "white";
         }
         context.beginPath();
         context.arc(this.holes[i][0][0], this.holes[i][0][1], holeRadius, 2 * Math.PI, false);
         context.fillStyle = this.fill;
+        context.strokeStyle = stroke;//"white";//"rgba(0, 0, 0, 0.1)";
+        context.lineWidth = 2;
         context.stroke();
         context.fill();
     }
@@ -183,9 +266,9 @@ Board.prototype.render = function() {
         context.lineTo(winningHoles[3][0], winningHoles[3][1]);
         //context.strokeStyle = "green";
         context.stroke();
-        context.font = "5rem Arial";
-        context.fillStyle = "white";
-        context.fillText(`${winner} won!`, canvas.width / 2 - context.measureText(`${winner} won`).width / 2, canvas.height * 0.5);
+        context.font = "1.5rem Arial";
+        context.fillStyle = "rgb(141, 141, 141)";
+        context.fillText(`${winner} won`, canvas.width / 2 - context.measureText(`${winner} won`).width / 2, canvas.height * 0.99);
     }
 };
 
@@ -215,9 +298,9 @@ Chip.prototype.render = function() {
     context.beginPath();
     context.arc(this.col, this.y, holeRadius, 2 * Math.PI, false);
     if (this.owner == "player") {
-        this.color = "blue";
+        this.color = manila;
     } else if (this.owner == "cpu") {
-        this.color = "red";
+        this.color = soviet;
     } else {
         this.color = "rgba(0, 0, 0, 0.000001)";
     }
@@ -258,7 +341,7 @@ DropChip.prototype.update = function() {
 
 
 function Player() {
-    this.chip = new Chip("blue", 0, holeRadius, null);
+    this.chip = new Chip(null, 0, holeRadius, null);
 }
 
 Player.prototype.render = function () {
@@ -300,9 +383,40 @@ CPU.prototype.render = function() {
     this.chip.render();
 };
 
+var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
+    noRowFound = true;
+    var retCol = null;
+    while (noRowFound) {
+        cpuBest = Math.max(...cpuScoresScratch.filter(val => val != null));
+        playerBest = Math.max(...playerScoresScratch.filter(val => val != null));
+        var zonePtr = null;
+        if (cpuBest >= 255 || playerBest < 26) {
+            zonePtr = cpuScoresScratch.indexOf(cpuBest);
+        } else {
+            zonePtr = playerScoresScratch.indexOf(playerBest);
+        }
+        retCol = columnBottoms[zonePtr];
+
+        if (!board.holes[retCol - 5][1]) {
+            console.log("false");
+            noRowFound = false;
+        } else {
+            cpuScoresScratch[zonePtr] = null;
+            playerScoresScratch[zonePtr] = null;
+            //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
+            //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
+            console.log(cpuScoresScratch);
+            retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
+            noRowFound = false;
+        }
+    }
+    return retCol;
+};
+
 CPU.prototype.update = function () {
-    col = columnBottoms[Math.floor(Math.random() * (6 - 0 + 1)) + 0];
     if (!playerTurn && !winner) {
+        col = calcDrop(cpuScores, playerScores);
+        console.log(col);
         for (var j = 0; j < 6; j++) {
             if (!board.holes[col - j][1] && !dropTrigger) {
                 this.chip.owner = "cpu";
