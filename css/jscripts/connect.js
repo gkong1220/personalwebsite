@@ -14,6 +14,7 @@ var topYCoords = null;
 var topXCoords = [];
 var cpuScores = [0, 0, 0, 0, 0, 0, 0];
 var playerScores = [0, 0, 0, 0, 0, 0, 0];
+var dangerIndex = [null, null, null, null, null, null, null]
 var holes = [];
 var mouseLoc = [];
 var mouseClickLoc = [];
@@ -82,7 +83,7 @@ var update = function() {
 };
 
 var render = function () {
-    context.fillStyle = "#ffffff";
+    context.fillStyle = "rgb(255, 217, 102)";
     context.fillRect(0, 0, canvas.width, canvas.height);
     player.render();
     cpu.render();
@@ -113,6 +114,76 @@ var determineException = function(holeIndex) {
     return totalExceptions;
 };
 
+var neighbours = function(holeIndex, owner) {
+    //hole[1] = owner;
+    checkIndices = {1: 1, 5: 1, 6: 1, 7: 1};
+    colExceptions = {0: [-7, -6, -5], 6: [5, 6, 7]};
+    rowExceptions = {0: [-7, -1, 5], 5: [-5, 1, 7]};
+
+    currentHole = holeIndex
+
+    baseExceptions = determineException(currentHole);
+    //console.log(totalExceptions);
+    for (var index in checkIndices) {
+        index = parseInt(index, 10);
+        var checkleft = true;
+        var checkright = true;
+        var resultNotFound = true;
+        var rightCount = currentHole;
+        var leftCount = currentHole;
+        var linedHoles = [board.holes[currentHole][0]];
+        leftExceptions = baseExceptions;
+        rightExceptions = baseExceptions;
+        //console.log(index);
+
+        while (resultNotFound) {
+            //console.log(leftExceptions);
+            leftCount -= index;
+            if (leftExceptions.includes(-index) && checkleft) {
+                checkleft = false;
+            } else if (typeof board.holes[leftCount] != "undefined" && board.holes[leftCount][1] == owner && checkleft) {
+                //console.log(leftCount);
+                //console.log(this.holes[leftCount][1]);
+                linedHoles.unshift(board.holes[leftCount][0])
+                checkIndices[index] += 1;
+                leftExceptions = determineException(leftCount);
+            } else if (checkleft) {
+                checkleft = false;
+            }
+
+            //console.log(rightExceptions);
+            rightCount += index;
+            if (rightExceptions.includes(index) && checkright) {
+                checkright = false;
+            } else if (typeof board.holes[rightCount] != "undefined" && board.holes[rightCount][1] == owner && checkright) {
+                //console.log(rightCount);
+                //console.log(this.holes[rightCount][1]);
+                linedHoles.push(board.holes[rightCount][0])
+                checkIndices[index] += 1;
+                rightExceptions = determineException(rightCount);
+            } else if (checkright) {
+                checkright = false;
+            }
+
+            if (checkIndices[index] >= 4) {
+                //checkIndices[index] = 1;
+                console.log("winner!");
+                return [checkIndices, linedHoles];
+                /*
+                winningHoles = linedHoles;
+                winner = owner;
+                resultNotFound = false;*/
+            }
+            if (!checkleft && !checkright) {
+                //console.log("nonefound");
+                //checkIndices[index] = 1;
+                resultNotFound = false;
+            }
+        }
+    }
+    return [checkIndices, null];
+};
+
 
 function Board() {
     this.fill = null;
@@ -131,22 +202,21 @@ function Board() {
 
 Board.prototype.update = function(hole, owner) {
     hole[1] = owner
-    var four = this.neighbours(hole, owner)[1];
+    var four = neighbours(this.holes.indexOf(hole), owner)[1];
     if (four) {
         winningHoles = four;
         winner = owner;
     } else if (owner == "player") {
         for (var column = 0; column < 7; column++) {
-            if (cpuScores[column] != null) {
+            if (cpuScores[column] != null && cpuScores[column] != "danger") {
                 for (var i = 0; i < 6; i++) {
                     var totalHoleScore = 0;
                     potentialOwners = ["cpu", "player"];
                     if (this.holes[columnBottoms[column] - i][1] == null) {
-                        potentialHole = this.holes[columnBottoms[column] - i];
                         for (var ownerPtr of potentialOwners) {
-                            console.log(ownerPtr);
-                            var posScores = this.neighbours(potentialHole, ownerPtr)[0];
-                            console.log(posScores);
+                            //console.log(ownerPtr);
+                            var posScores = neighbours(columnBottoms[column] - i, ownerPtr)[0];
+                            //console.log(posScores);
                             for (const [key, value] of Object.entries(posScores)) {
                                 totalHoleScore += (Math.pow(value, value));
                             }
@@ -175,7 +245,6 @@ Board.prototype.neighbours = function(hole, owner) {
     currentHole = this.holes.indexOf(hole);
 
     baseExceptions = determineException(currentHole);
-    console.log(currentHole);
     //console.log(totalExceptions);
     for (var index in checkIndices) {
         index = parseInt(index, 10);
@@ -266,9 +335,6 @@ Board.prototype.render = function() {
         context.lineTo(winningHoles[3][0], winningHoles[3][1]);
         //context.strokeStyle = "green";
         context.stroke();
-        context.font = "1.5rem Arial";
-        context.fillStyle = "rgb(141, 141, 141)";
-        context.fillText(`${winner} won`, canvas.width / 2 - context.measureText(`${winner} won`).width / 2, canvas.height * 0.99);
     }
 };
 
@@ -276,10 +342,12 @@ Board.prototype.reset = function() {
     for (var key in keysDown) {
         var value = Number(key);
         if (value == 78) {
-            console.log("in");
+            //console.log("in");
             winner = null;
             winningHoles = [];
             playerTurn = true;
+            cpuScores = [0, 0, 0, 0, 0, 0, 0];
+            playerScores = [0, 0, 0, 0, 0, 0, 0];
             board = new Board();
         }
     }
@@ -301,6 +369,8 @@ Chip.prototype.render = function() {
         this.color = manila;
     } else if (this.owner == "cpu") {
         this.color = soviet;
+    } else if (this.owner == "lastCpu") {
+        this.color = "#ff196a";
     } else {
         this.color = "rgba(0, 0, 0, 0.000001)";
     }
@@ -360,6 +430,10 @@ Player.prototype.update = function () {
                     //this.dropchip.col = topXCoords[Math.floor(i / 6)];
                     chipDropped.droppingchip.col = board.holes[columnHead][0][0];
                     chipDropped.droppingchip.owner = "player";
+                    if (cpuScores[Math.floor(i/6)] == "danger") {
+                        cpuScores[Math.floor(i/6)] = 0;
+                        playerScores[Math.floor(i/6)] = 0;
+                    }
                     chipDropped.droppingchip.dest = board.holes[columnHead - j];
                     dropTrigger = true;
                     break;
@@ -383,31 +457,76 @@ CPU.prototype.render = function() {
     this.chip.render();
 };
 
+var determineLowest = function(colBottom) {
+    for (var i = 0; i < 6; i++) {
+        if (!board.holes[colBottom - i][1]) {
+            return colBottom - i
+        }
+    }
+    return -1
+};
+
 var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
     noRowFound = true;
     var retCol = null;
+    winningMove = false;
+    cpuScoresCopy = cpuScoresScratch.slice();
+    playerScoresCopy = playerScoresScratch.slice();
+    dangerFound = false;
     while (noRowFound) {
-        cpuBest = Math.max(...cpuScoresScratch.filter(val => val != null));
-        playerBest = Math.max(...playerScoresScratch.filter(val => val != null));
-        var zonePtr = null;
-        if (cpuBest >= 255 || playerBest < 26) {
-            zonePtr = cpuScoresScratch.indexOf(cpuBest);
+        cpuBest = Math.max(...cpuScoresCopy.filter(val => val != null && val != "danger" && val != "trap"));
+        if (cpuBest && cpuBest != -Infinity) {
+            playerBest = Math.max(...playerScoresCopy.filter(val => val != null));
+            var zonePtr = null;
+            if (cpuBest >= 255 || playerBest < 26) {
+                if (cpuBest >= 255) {
+                    winningMove = true;
+                }
+                zonePtr = cpuScoresCopy.indexOf(cpuBest);
+            } else {
+                zonePtr = playerScoresCopy.indexOf(playerBest);
+            }
+            retCol = columnBottoms[zonePtr];
+            if (!board.holes[retCol - 5][1]) {
+                //console.log("false");
+                nextHoleIndex = determineLowest(retCol) - 1;
+                if (retCol - nextHoleIndex < 6 && !winningMove) {
+                    nextCpuWinner = neighbours(nextHoleIndex, "cpu")[1];
+                    if (nextCpuWinner) {
+                        if (playerScoresCopy[zonePtr] < 255) {
+                            cpuScoresCopy[zonePtr] = "trap";
+                            playerScoresCopy[zonePtr] = null;
+                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
+                        }
+                        nextCpuWinner = false;
+                    }
+                    [nextScores, nextWinner] = neighbours(nextHoleIndex, "player");
+                    if (nextWinner) {
+                        cpuScoresCopy[zonePtr] = "danger";
+                        playerScoresCopy[zonePtr] = null;
+                        //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
+                    }
+                    if (nextCpuWinner || nextWinner) {
+                        retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
+                    }
+                }
+                noRowFound = false;
+            } else {
+                cpuScoresScratch[zonePtr] = null;
+                playerScoresScratch[zonePtr] = null;
+                //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
+                //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
+                //console.log(cpuScoresScratch);
+                retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
+                noRowFound = false;
+            }
         } else {
-            zonePtr = playerScoresScratch.indexOf(playerBest);
-        }
-        retCol = columnBottoms[zonePtr];
-
-        if (!board.holes[retCol - 5][1]) {
-            console.log("false");
-            noRowFound = false;
-        } else {
-            cpuScoresScratch[zonePtr] = null;
-            playerScoresScratch[zonePtr] = null;
-            //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
-            //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
-            console.log(cpuScoresScratch);
-            retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
-            noRowFound = false;
+            for (var i = 0; i < cpuScoresScratch.length; i++) {
+                if (cpuScoresScratch[i] == "danger") {
+                    retCol = columnBottoms[i];
+                    noRowFound = false;
+                }
+            }
         }
     }
     return retCol;
@@ -416,7 +535,7 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
 CPU.prototype.update = function () {
     if (!playerTurn && !winner) {
         col = calcDrop(cpuScores, playerScores);
-        console.log(col);
+        //console.log(col);
         for (var j = 0; j < 6; j++) {
             if (!board.holes[col - j][1] && !dropTrigger) {
                 this.chip.owner = "cpu";
