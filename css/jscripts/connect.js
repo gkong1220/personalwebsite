@@ -422,7 +422,12 @@ Player.prototype.update = function () {
     for (var i = 0; i < board.holes.length; i++) {
         context.beginPath();
         context.arc(board.holes[i][0][0], board.holes[i][0][1], holeRadius, 2 * Math.PI, false);
-        if (context.isPointInPath(mouseClickLoc[0], mouseClickLoc[1]) || (mouseClickLoc[0] < (topXCoords[Math.floor(i / 6)] + holeRadius) && mouseClickLoc[0] > (topXCoords[Math.floor(i / 6)] - holeRadius))) {
+        if (context.isPointInPath(mouseClickLoc[0], mouseClickLoc[1]) || 
+            (mouseClickLoc[0] < (topXCoords[Math.floor(i / 6)] + holeRadius) && 
+            mouseClickLoc[0] > (topXCoords[Math.floor(i / 6)] - holeRadius) && 
+            mouseClickLoc[1] < (board.holes[5][0][1] + holeRadius) && 
+            mouseClickLoc[1] > (board.holes[0][0][1] - (2 * holeRadius)))) 
+            {
             mouseClickLoc = [];
             var columnHead = columnBottoms[Math.floor(i/6)];
             for (var j = 0; j < 6; j++) {
@@ -497,8 +502,9 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
                             cpuScoresCopy[zonePtr] = "trap";
                             playerScoresCopy[zonePtr] = null;
                             //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
+                        } else {
+                            nextCpuWinner = false;
                         }
-                        nextCpuWinner = false;
                     }
                     [nextScores, nextWinner] = neighbours(nextHoleIndex, "player");
                     if (nextWinner) {
@@ -539,7 +545,7 @@ CPU.prototype.update = function () {
         for (var j = 0; j < 6; j++) {
             if (!board.holes[col - j][1] && !dropTrigger) {
                 this.chip.owner = "cpu";
-                this.chip.move(topXCoords[col]);
+                this.chip.move(topXCoords[Math.floor(col/6)]);
                 chipDropped.droppingchip.col = board.holes[col][0][0];
                 chipDropped.droppingchip.owner = "cpu";
                 chipDropped.droppingchip.dest = board.holes[col - j];

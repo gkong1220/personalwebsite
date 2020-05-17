@@ -6,13 +6,14 @@ $hme: #051e3e;
 $abt: #251e3e; 
 $exp: #451e3e;
 $crt: #651e3e;
-$space: #0F0F0F;
+$space: rgb(14, 13, 13);;
 $dark-blue: #011f4b;
 $white: #ffffff;
 $pebble: #5C5C5C;
 $wolf: rgb(141, 141, 141);
 $gold: rgb(255, 217, 102);
 $batman: #9c9a9a;
+$socks: rgb(219, 217, 217);
 
 html {
   height: 100%;
@@ -26,7 +27,7 @@ a {
 }
 
 body {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Karla', sans-serif;
   position: relative;
   background-color:transparent;
   background-size: cover;
@@ -47,6 +48,7 @@ body.home_page {
 body.creatives-pages {
   text-align: center;
   justify-content: center;
+  width: 50vw;
 }
 
 body.creatives-landing {
@@ -86,7 +88,7 @@ header {
 }
 
 .atari-body {
-  overflow: visible;
+  overflow: auto;
 }
 
 .opening-body {
@@ -116,35 +118,75 @@ header {
 
 .creatives-content-title {
   display: block;
-  text-align: left;
-  top: 15vh;
-  font-size: 3.4rem;
+  top: 30vh;
+  font-size: 8rem;
   position: relative;
-  width: 10%;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
   color: rgb(255, 217, 102);
 }
 
 .creatives-content-subtitle {
+  font-style: italic;
   position: relative;
-  text-align: left;
+  display: block;
+  padding-top: 5vh;
   font-size: 1.5rem;
-  color: $pebble;
-  top: 17vh;
+  color: $wolf;
+  width: 100%;
+  top: 15vh;
+}
+
+.creatives-content-heading {
+  //font-style: italic;
+  position: relative;
+  display: block;
+  padding-top: 5vh;
+  color: $space;
+  text-align: left;
+  font-size: 3.4rem;
+  padding-top: 5vh;
+}
+
+.creatives-content-rules {
+  padding-top: 5vh;
+  top: 90vh;
+  width: 100%;
+  position: absolute;
+}
+
+.creatives-content-scroll-prompt {
+  //font-style: italic;
+  font-size: 1rem;
+  width: 100%;
+  top: 95vh;
+  position: absolute;
+  display: block;
+  color: $socks;
+  -webkit-transition: 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 1s; /* Firefox < 16 */
+  -ms-transition: 1s; /* Internet Explorer */
+  -o-transition: 1s; /* Opera < 12.1 */
+  transition: 1s;
+}
+
+.creatives-content-scroll-prompt.scrolled {
+  color: #ffffff;
 }
 
 .opening-rec {
-  padding-top: 2.5rem;
-  position: relative;
   top: 30vh;
 }
 
 .opening-score {
-  text-align: left;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+  text-align: right;
   top: 35vh;
+}
+
+.opening-about {
+  text-align: right;
+  top: 40vh;
 }
 
 .creatives-content-illustration {
@@ -159,12 +201,18 @@ header {
 .creatives-content-description {
   position: relative;
   text-align: justify;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   color: $pebble;
-  top: 24vh;
+  padding-top: 10vh;
+  top: 25vh;
   line-height: 2;
+  padding-bottom: 15vh;
   //width: 40vw;
   //margin: 0 auto;
+}
+
+.content-paragraph {
+  margin-bottom: 5vh;
 }
 
 .creatives-content-list {
@@ -172,20 +220,28 @@ header {
   list-style: none;
 }
 
-ul.atari-rules {
-  top: 15vh;
+ul.rules {
   list-style-type: disk;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: $wolf;
   text-align: left;
   text-justify: left;
-  width: auto;
+  width: 100%;
   position: relative;
   height: auto;
   display: block;
   list-style-position: inside;
-  padding-bottom: 1vh;
+  padding-top: 10vh;
+  padding-bottom: 2vh;
   -webkit-padding-start: 0;
+}
+
+ul.atari {
+  top: 75vh;
+}
+
+ul.connect {
+  top: 90vh;
 }
 
 .opening-player {
@@ -194,6 +250,7 @@ ul.atari-rules {
   width: 50vw;
   text-align: left;
   justify-content: left;
+  padding-bottom: 10vh;
 }
 
 .opening-list {
@@ -201,17 +258,19 @@ ul.atari-rules {
   text-decoration: none;
   top: 32vh;
   position: relative;
-  text-align: left;
-  list-style: none;
+  text-align: right;
+  list-style: disk;
+  list-style-position: inside;
   -webkit-padding-start: 0;
   font-style: italic;
-  width: auto;
+  width: 100%;
   padding-bottom: 10rem;
-  line-height: 2rem;
+  line-height: 3rem;
 }
 
 .opening-downloads {
-  padding-bottom: 0.3rem;
+  padding-bottom: 2rem;
+  font-size: 1.5rem;
   text-decoration: none;
   color: $pebble;
   &:hover {
@@ -294,11 +353,17 @@ img.face {
   height: auto;
 }
 
-canvas {
+#canvas-container {
+  width: 50%;
+  text-align: center;
   position: relative;
-  width: auto;
-  display: inline-block;
-  padding-top: 0.1rem;
+}
+
+canvas {
+  top: 100vh;
+  padding-top:5vh;
+  position: absolute;
+  display: block;
   //margin-top: 5em;
 }
 
@@ -351,9 +416,10 @@ canvas {
   //padding-bottom: 150px;;
   color: $wolf;
   position: relative;
-  font-size: 1rem;
+  font-size: 2rem;
   display: flex;
-  text-align: center;
+  text-align: left;
+  word-wrap: break-word;
 }
 
 .social-icons {
@@ -388,9 +454,8 @@ canvas {
 }
 
 .creatives-content {
-  position: relative;
-  margin-top: 20%;
-  width: auto;
+  position: absolute;
+  width: 100%;
   height: auto;
   text-align: center;
   display: inline-block;
@@ -465,6 +530,7 @@ a.arrow {
   text-decoration: none;
   color: rgb(219, 217, 217);
   position: relative;
+  font-size: 1.3rem;
 
   &:hover {
   color: rgb(248, 192, 24);
