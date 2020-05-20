@@ -146,14 +146,24 @@ header {
   color: $space;
   text-align: left;
   font-size: 3.4rem;
-  padding-top: 5vh;
+  padding-top: 10vh;
+  padding-bottom: 1vh;
+}
+
+.creatives-content-subheading {
+  position: relative;
+  display: block;
+  text-align: left;
+  //padding-top: 1vh;
+  font-size: 2rem;
+  color: $wolf;
 }
 
 .creatives-content-rules {
-  padding-top: 5vh;
-  top: 90vh;
+  padding-top: 35vh;
+  //top: 90vh;
   width: 100%;
-  position: absolute;
+  position: relative;
 }
 
 .creatives-content-scroll-prompt {
@@ -163,7 +173,7 @@ header {
   top: 95vh;
   position: absolute;
   display: block;
-  color: $socks;
+  color: $space;//$socks;
   -webkit-transition: 1s; /* Safari, Chrome and Opera > 12.1 */
   -moz-transition: 1s; /* Firefox < 16 */
   -ms-transition: 1s; /* Internet Explorer */
@@ -176,15 +186,22 @@ header {
 }
 
 .opening-rec {
+  height: 3rem;
   top: 30vh;
 }
 
+.opening-rec-label {
+  top: 32vh;
+}
+
 .opening-score {
+  height: 2rem;
   text-align: right;
-  top: 35vh;
+  top: 50vh;
 }
 
 .opening-about {
+  padding-top: 25vh;
   text-align: right;
   top: 40vh;
 }
@@ -250,16 +267,17 @@ ul.connect {
   width: 50vw;
   text-align: left;
   justify-content: left;
-  padding-bottom: 10vh;
+  padding-bottom: 3vh;
 }
 
 .opening-list {
   color: $pebble;
   text-decoration: none;
-  top: 32vh;
+  top: 50vh;
   position: relative;
   text-align: right;
-  list-style: disk;
+  justify-content: right;
+  list-style-type: none;
   list-style-position: inside;
   -webkit-padding-start: 0;
   font-style: italic;

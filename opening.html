@@ -7,11 +7,11 @@
 	</head>
 	<body class="opening-body creatives-pages">
 		<div class="navigate">
-			<a class="hme arrow" href="creatives.html">
-				<- creatives</a> </div>
+			<a class="hme arrow" href="creatives.html"><- creatives</a> </div>
 		<div class="opening-contents">
 			<div class="creatives-content-title">opening</div>
 			<div class="creatives-content-subtitle">arr. flute, viola, cello, baritone</div>
+			<div class="creatives-content-scroll-prompt">(scroll for content)</div>
 			<p class="creatives-content-heading opening-score">Score/Parts</p>
 			<ul class="opening-list">
 				<li><a class="opening-downloads" href="css/docs/Opening_Score.pdf" target="_blank">Opening_Score.pdf (314 KB)</a></li>
@@ -20,6 +20,12 @@
 				<li><a class="opening-downloads" href="css/docs/Opening_Cello.pdf" target="_blank">Opening_Cello.pdf (117 KB)</a></li>
 			</ul>
 			<p class="creatives-content-heading opening-rec">Recordings</p>
+			<p class="creatives-content-subheading opening-rec-label">first live demo (snippet):</p>
+			<audio controls class="opening-player">
+				<source src="css/audio/arrange.wav" type="audio/mpeg">
+				Your browser does not support the audio element.
+			</audio>
+			<p class="creatives-content-subheading opening-rec-label">original piece:</p>
 			<audio controls class="opening-player">
 				<source src="css/audio/Philip Glass - Glassworks - 01. Opening.mp3" type="audio/mpeg">
 					Your browser does not support the audio element.
@@ -43,6 +49,8 @@
 					time and to whom the parts are dedicated.
 				 </p>
 			</div>
+			<script src="css/jscripts/jquery-3.4.1.min.js"></script>
+			<script src="css/jscripts/scrollmore.js"></script>
 		</div>
 	</body>
 </html>
