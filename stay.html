@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Gabe Kong</title>
+		<link rel="stylesheet" href="css/application.css">
+		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+	</head>
+	<body class="stay-body">
+        <a class="hme arrow stay" href="creatives.html"><- creatives</a>
+        <div id="menu" class="stay-menu">
+            <p id="instructions" class="stay-text">please select a scene, a song, and/or a sound...</p>
+            <ul class="stay-options">
+                <li class="stay-list">
+                    <a class="stay-dropdown">scene:</a>
+                    <div class="dropdown-content">
+                        <a class="scene-option">malick</a>
+                        <a class="scene-option">villeneuve</a>
+                        <a class="scene-option">jonze</a>
+                    </div>
+                </li>
+                <li class="stay-list">
+                    <a class="stay-dropdown">song:</a>
+                    <div class="dropdown-content">
+                        <a class="song-option">couperin</a>
+                        <a class="song-option">taverner</a>
+                        <a class="song-option">richter</a>
+                        <a class="song-option">vangelis</a>
+                        <a class="song-option">arcade</a>
+                    </div>
+                </li>
+                <li class="stay-list">
+                    <a class="stay-dropdown">sound:</a>
+                    <div class="dropdown-content">
+                        <a class="sound-option">outdoors</a>
+                        <a class="sound-option">snow</a>
+                        <a class="sound-option">urban</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="video-container">
+            <video class="scene hide-scene" muted="muted" id="malick">
+                <source src="css/videos/malick_3.mp4" type="video/mp4">
+            </video>
+            <video class="scene hide-scene" muted="muted" id="villeneuve">
+                <source src="css/videos/villeneuve.mp4" type="video/mp4">
+            </video>
+            <video class="scene hide-scene" muted="muted" id="jonze">
+                <source src="css/videos/jonze.mp4" type="video/mp4">
+            </video>
+        </div>
+        <audio class="audio" id="couperin">
+            <source src="css/audio/couperin.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="taverner">
+            <source src="css/audio/taverner.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="richter">
+            <source src="css/audio/richter.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="vangelis">
+            <source src="css/audio/vangelis.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="arcade">
+            <source src="css/audio/arcade.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="outdoors">
+            <source src="css/audio/outdoors.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="snow">
+            <source src="css/audio/snow.mp3" type="audio/mp3">
+        </audio>
+        <audio class="audio" id="urban">
+            <source src="css/audio/urban.mp3" type="audio/mp3">
+        </audio>
+        <script src="css/jscripts/jquery-3.4.1.min.js"></script>
+        <script src="css/jscripts/stay.js"></script>
+	</body>
+</html>
