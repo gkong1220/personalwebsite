@@ -20,7 +20,14 @@ var holes = [];
 var mouseLoc = [];
 var mouseClickLoc = [];
 var dropTrigger = false;
-var playerTurn = true;
+
+var playerStart = Math.random() >= 0.5;
+if (playerStart) {
+    var playerTurn = true;
+} else {
+    var playerTurn = false;
+}
+//var playerTurn = false;
 var winner = null;
 var winningHoles = [];
 var keysDown = {};
@@ -61,14 +68,6 @@ window.addEventListener("click", function(event) {
     mouseClickLoc = [event.clientX - rect.left, event.clientY - rect.top];
 }, false );
 
-window.addEventListener("mousedown", function(event) {
-    //mouseDown = true;
-});
-
-window.addEventListener("mouseup", function(event) {
-    //mouseDown = false;
-});
-
 var step = function () {
     update();
     render();
@@ -77,18 +76,18 @@ var step = function () {
 };
 
 var update = function() {
+    board.reset();
     player.update();
     cpu.update();
     chipDropped.update();
-    board.reset();
 };
 
 var render = function () {
     context.fillStyle = "rgb(255, 217, 102)";
     context.fillRect(0, 0, canvas.width, canvas.height);
-    player.render();
     cpu.render();
     chipDropped.render();
+    player.render();
     board.render();
 };
 
@@ -121,8 +120,7 @@ var neighbours = function(holeIndex, owner) {
     colExceptions = {0: [-7, -6, -5], 6: [5, 6, 7]};
     rowExceptions = {0: [-7, -1, 5], 5: [-5, 1, 7]};
 
-    currentHole = holeIndex
-
+    currentHole = holeIndex;
     baseExceptions = determineException(currentHole);
     //console.log(totalExceptions);
     for (var index in checkIndices) {
@@ -196,12 +194,14 @@ function Board() {
 }
 
 Board.prototype.update = function(hole, owner) {
-    hole[1] = owner
+    hole[1] = owner;
     var four = neighbours(this.holes.indexOf(hole), owner)[1];
+    var checkTrigger = playerStart ? "player" : "cpu";
     if (four) {
         winningHoles = four;
         winner = owner;
-    } else if (owner == "player") {
+    }
+    else if (owner == checkTrigger) {
         for (var column = 0; column < 7; column++) {
             if (cpuScores[column] != null && cpuScores[column] != "danger") {
                 for (var i = 0; i < 6; i++) {
@@ -226,9 +226,34 @@ Board.prototype.update = function(hole, owner) {
                 }
             }
         }
-        console.log(cpuScores);
-        console.log(playerScores);
     }
+    /*
+    else {
+        for (var column = 0; column < 7; column++) {
+            if (cpuScores[column] != null && cpuScores[column] != "danger") {
+                for (var i = 0; i < 6; i++) {
+                    var totalHoleScore = colWeight[column];
+                    potentialOwners = ["cpu", "player"];
+                    if (this.holes[columnBottoms[column] - i][1] == null) {
+                        for (var ownerPtr of potentialOwners) {
+                            //console.log(ownerPtr);
+                            var posScores = neighbours(columnBottoms[column] - i, ownerPtr)[0];
+                            //console.log(posScores);
+                            for (const [key, value] of Object.entries(posScores)) {
+                                totalHoleScore += (Math.pow(value, value));
+                            }
+                            if (ownerPtr == "cpu") {
+                                cpuScores[column] = totalHoleScore;
+                            } else {
+                                playerScores[column] = totalHoleScore;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    } */
 };
 
 Board.prototype.render = function() {
@@ -267,13 +292,19 @@ Board.prototype.reset = function() {
     for (var key in keysDown) {
         var value = Number(key);
         if (value == 78) {
-            //console.log("in");
             winner = null;
             winningHoles = [];
-            playerTurn = true;
+            playerTurn = !playerStart;
+            playerStart = !playerStart;
             cpuScores = [0, 0, 0, 0, 0, 0, 0];
             playerScores = [0, 0, 0, 0, 0, 0, 0];
-            board = new Board();
+            if (dropTrigger) {
+                dropTrigger = false;
+                chipDropped = new DropChip(null, 0, null);
+                board = new Board();
+            } else {
+                board = new Board();
+            }
         }
     }
 };
@@ -397,77 +428,82 @@ var determineLowest = function(colBottom) {
 };
 
 var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
-    noRowFound = true;
-    var retCol = null;
-    winningMove = false;
-    cpuScoresCopy = cpuScoresScratch.slice();
-    playerScoresCopy = playerScoresScratch.slice();
-    dangerFound = false;
-    while (noRowFound) {
-        cpuBest = Math.max(...cpuScoresCopy.filter(val => val != null && val != "danger" && val != "trap"));
-        if (cpuBest && cpuBest != -Infinity) {
-            playerBest = Math.max(...playerScoresCopy.filter(val => val != null));
-            var zonePtr = null;
-            if (cpuBest >= 255 || playerBest < 26) {
-                if (cpuBest >= 255) {
-                    winningMove = true;
+    if (!playerStart && !cpuScoresScratch.some(item => item !== 0)) {
+        retCol = columnBottoms[3];
+    } else {
+        noRowFound = true;
+        var retCol = null;
+        winningMove = false;
+        cpuScoresCopy = cpuScoresScratch.slice();
+        playerScoresCopy = playerScoresScratch.slice();
+        dangerFound = false;
+        while (noRowFound) {
+            cpuBest = Math.max(...cpuScoresCopy.filter(val => val != null && val != "danger" && val != "trap"));
+            if (cpuBest && cpuBest != -Infinity) {
+                playerBest = Math.max(...playerScoresCopy.filter(val => val != null));
+                var zonePtr = null;
+                if (cpuBest >= 255 || playerBest < 26) {
+                    if (cpuBest >= 255) {
+                        winningMove = true;
+                    }
+                    zonePtr = cpuScoresCopy.indexOf(cpuBest);
+                } else {
+                    zonePtr = playerScoresCopy.indexOf(playerBest);
                 }
-                zonePtr = cpuScoresCopy.indexOf(cpuBest);
-            } else {
-                zonePtr = playerScoresCopy.indexOf(playerBest);
-            }
-            retCol = columnBottoms[zonePtr];
-            if (!board.holes[retCol - 5][1]) {
-                //console.log("false");
-                nextHoleIndex = determineLowest(retCol) - 1;
-                if (retCol - nextHoleIndex < 6 && !winningMove) {
-                    nextCpuWinner = neighbours(nextHoleIndex, "cpu")[1];
-                    if (nextCpuWinner) {
-                        if (playerScoresCopy[zonePtr] < 255) {
-                            cpuScoresCopy[zonePtr] = "trap";
+                retCol = columnBottoms[zonePtr];
+                if (!board.holes[retCol - 5][1]) {
+                    //console.log("false");
+                    nextHoleIndex = determineLowest(retCol) - 1;
+                    if (retCol - nextHoleIndex < 6 && !winningMove) {
+                        nextCpuWinner = neighbours(nextHoleIndex, "cpu")[1];
+                        if (nextCpuWinner) {
+                            if (playerScoresCopy[zonePtr] < 255) {
+                                cpuScoresCopy[zonePtr] = "trap";
+                                playerScoresCopy[zonePtr] = null;
+                                //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
+                            } else {
+                                nextCpuWinner = false;
+                            }
+                        }
+                        [nextScores, nextWinner] = neighbours(nextHoleIndex, "player");
+                        if (nextWinner) {
+                            cpuScoresCopy[zonePtr] = "danger";
                             playerScoresCopy[zonePtr] = null;
-                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
-                        } else {
-                            nextCpuWinner = false;
+                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
+                        //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
+                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
+                        }
+                        if (nextCpuWinner || nextWinner) {
+                            retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
                         }
                     }
-                    [nextScores, nextWinner] = neighbours(nextHoleIndex, "player");
-                    if (nextWinner) {
-                        cpuScoresCopy[zonePtr] = "danger";
-                        playerScoresCopy[zonePtr] = null;
-                        //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
-                    }
-                    if (nextCpuWinner || nextWinner) {
-                        retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
-                    }
-                }
-                noRowFound = false;
-            } else {
-                cpuScoresScratch[zonePtr] = null;
-                playerScoresScratch[zonePtr] = null;
-                //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
-                //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
-                //console.log(cpuScoresScratch);
-                retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
-                noRowFound = false;
-            }
-        } else {
-            for (var i = 0; i < cpuScoresScratch.length; i++) {
-                if (cpuScoresScratch[i] == "danger") {
-                    retCol = columnBottoms[i];
                     noRowFound = false;
+                } else {
+                    cpuScoresScratch[zonePtr] = null;
+                    playerScoresScratch[zonePtr] = null;
+                    //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
+                    //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
+                    //console.log(cpuScoresScratch);
+                    retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
+                    noRowFound = false;
+                }
+            } else {
+                for (var i = 0; i < cpuScoresScratch.length; i++) {
+                    if (cpuScoresScratch[i] == "danger") {
+                        retCol = columnBottoms[i];
+                        noRowFound = false;
+                    }
                 }
             }
         }
     }
-    console.log(cpuScoresCopy);
+    //console.log(cpuScoresCopy);
     return retCol;
 };
 
 CPU.prototype.update = function () {
     if (!playerTurn && !winner) {
         col = calcDrop(cpuScores, playerScores);
-        //console.log(col);
         for (var j = 0; j < 6; j++) {
             if (!board.holes[col - j][1] && !dropTrigger) {
                 this.chip.owner = "cpu";
@@ -479,6 +515,8 @@ CPU.prototype.update = function () {
                 break;
             }
         }
+    } else {
+        this.chip.owner = "rgba(0, 0, 0, 0.0001)";
     }
 };
 
