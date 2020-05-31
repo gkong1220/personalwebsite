@@ -735,6 +735,7 @@ img.face {
 canvas {
   top: 120vh;
   padding-top: 5vh;
+  padding-bottom: 5vh;
   position: absolute;
   display: block;
   width: 100%;
