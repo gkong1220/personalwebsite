@@ -511,6 +511,7 @@ body.home_page {
   font-size: 1.2rem;
   color: white;
   width: 100%;
+  padding-bottom: 0.5vh;
 }
 
 .mm-dropdown:hover .dropdownbtn {
@@ -550,28 +551,20 @@ body.home_page {
       -ms-flex-pack: center;
           justify-content: center;
   text-align: center;
+  padding-right: 1vw;
 }
 
 .games-dropdown .dropdownbtn {
   font-size: 1.2rem;
   color: white;
   width: 100%;
-  padding-bottom: 1vh;
+  padding-bottom: 0.5vh;
 }
 
 .games-dropdown:hover .dropdownbtn {
   color: #ffd966;
   width: 100%;
   border-bottom: 0.1rem solid #ffd966;
-  transition: width 0.2s ease;
-  -webkit-transition: width 0.2s ease;
-  /* Safari, Chrome and Opera > 12.1 */
-  -moz-transition: width 0.2s ease;
-  /* Firefox < 16 */
-  -ms-transition: width 0.2s ease;
-  /* Internet Explorer */
-  -o-transition: width 0.2s ease;
-  /* Opera < 12.1 */
 }
 
 .games-dropdown-content {
