@@ -5,6 +5,7 @@
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css);
 html {
   line-height: 1.15;
   /* 1 */
@@ -352,11 +353,22 @@ a {
   text-decoration: none;
 }
 
+a.right {
+  top: 5vh;
+  right: 5vw;
+}
+
 body {
   font-family: "Karla", sans-serif;
   position: relative;
   background-color: transparent;
   background-size: cover;
+  width: 100vw;
+  height: auto;
+  margin: 0;
+}
+
+.standard-content-body {
   width: 50vw;
   height: 100vw;
   margin-left: 25vw;
@@ -370,12 +382,7 @@ body {
   margin: 0;
 }
 
-body.home_page {
-  overflow: scroll;
-  height: auto;
-}
-
-body.creatives-pages {
+.creatives-pages {
   text-align: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -388,9 +395,204 @@ body.creatives-landing {
   overflow: hidden;
 }
 
-body.about_page {
-  background-color: #FFFFFF;
+body.home_page {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  overflow: hidden;
+  height: auto;
+  width: 100%;
+  text-align: center;
+  background-image: url("https://media.giphy.com/media/4TeAgvEpSg6lFI1Mvn/giphy.gif");
+}
+
+.contact {
+  width: 100vw;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
   position: absolute;
+  top: 85vh;
+}
+
+.social-icons {
+  padding: 0;
+  list-style: none;
+  margin-top: 1vh;
+}
+
+.social-icons li {
+  vertical-align: top;
+  display: inline;
+  height: 1rem;
+}
+
+.social-icons a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.fa {
+  font-size: 1.3rem;
+}
+
+.fa-linkedin {
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  background-color: transparent;
+  border: none;
+  height: 1rem;
+  top: 0;
+  color: white;
+}
+.fa-linkedin:hover {
+  background-color: #0073a4;
+}
+
+.fa-envelope-o {
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  background-color: transparent;
+  border: none;
+  height: 1rem;
+  top: 0;
+  color: white;
+}
+.fa-envelope-o:hover {
+  background-color: #D44638;
+}
+
+.fa-instagram {
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  background-color: transparent;
+  border: none;
+  height: 1rem;
+  top: 0;
+  color: white;
+}
+.fa-instagram:hover {
+  background-color: #bc2a8d;
+}
+
+.title {
+  display: block;
+  top: 35vh;
+  width: 100vw;
+  z-index: -1;
+  position: absolute;
+  font-size: 3rem;
+  color: white;
+  white-space: nowrap;
+}
+
+.home-nav {
+  overflow: hidden;
+  position: relative;
+  margin-right: 5vw;
+  margin-top: 5vh;
+}
+
+.mm-dropdown {
+  float: right;
+  overflow: hidden;
+  min-width: 6rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+}
+
+.mm-dropdown .dropdownbtn {
+  font-size: 1.2rem;
+  color: white;
+  width: 100%;
+}
+
+.mm-dropdown:hover .dropdownbtn {
+  color: #ffd966;
+  visibility: visible;
+  width: 100%;
+  border-bottom: 0.1rem solid #ffd966;
+}
+
+.mm-dropdown-content {
+  display: none;
+  float: right;
+  padding-bottom: 1vh;
+}
+
+.mm-dropdown-content a {
+  color: white;
+  width: 100%;
+  display: inline-block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.mm-dropdown-content a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.mm-dropdown:hover .mm-dropdown-content {
+  display: inline-block;
+}
+
+.games-dropdown {
+  float: right;
+  overflow: hidden;
+  padding-left: 3vw;
+  width: 6rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+}
+
+.games-dropdown .dropdownbtn {
+  font-size: 1.2rem;
+  color: white;
+  width: 100%;
+  padding-bottom: 1vh;
+}
+
+.games-dropdown:hover .dropdownbtn {
+  color: #ffd966;
+  width: 100%;
+  border-bottom: 0.1rem solid #ffd966;
+  transition: width 0.2s ease;
+  -webkit-transition: width 0.2s ease;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: width 0.2s ease;
+  /* Firefox < 16 */
+  -ms-transition: width 0.2s ease;
+  /* Internet Explorer */
+  -o-transition: width 0.2s ease;
+  /* Opera < 12.1 */
+}
+
+.games-dropdown-content {
+  display: none;
+  float: right;
+  padding-bottom: 1vh;
+}
+
+.games-dropdown-content a {
+  color: white;
+  width: 100%;
+  display: inline-block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.games-dropdown-content a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.games-dropdown:hover .games-dropdown-content {
+  display: inline-block;
 }
 
 .actual-page {
@@ -425,7 +627,8 @@ header {
 }
 
 .opening-body {
-  overflow: auto;
+  margin-left: 25vw;
+  margin-right: 25vw;
 }
 
 .opening-contents {
@@ -540,19 +743,18 @@ header {
 }
 
 .opening-rec {
-  position: absolute;
   height: 3rem;
-  top: 5vh;
+  top: 40vh;
 }
 
 .opening-rec-label {
-  top: 32vh;
+  top: 40vh;
 }
 
 .opening-score {
   height: 2rem;
   text-align: right;
-  top: 50vh;
+  top: 55vh;
 }
 
 .opening-about {
@@ -618,7 +820,7 @@ ul.connect {
 
 .opening-player {
   position: relative;
-  top: 30vh;
+  top: 40vh;
   width: 50vw;
   text-align: left;
   -webkit-box-pack: left;
@@ -631,7 +833,7 @@ ul.connect {
 .opening-list {
   color: #5C5C5C;
   text-decoration: none;
-  top: 50vh;
+  top: 55vh;
   position: relative;
   text-align: right;
   -webkit-box-pack: right;
@@ -795,16 +997,6 @@ canvas {
   word-wrap: break-word;
 }
 
-.social-icons {
-  text-align: center;
-  position: relative;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  width: 30vw;
-  height: 2vh;
-  margin: 0 auto;
-}
-
 .column {
   text-align: right;
   display: -webkit-inline-box;
@@ -906,7 +1098,8 @@ a.stuffs:hover {
 }
 
 a.arrow {
-  top: 10vh;
+  top: 5vh;
+  left: 5vw;
   text-decoration: none;
   color: #dbd9d9;
   position: relative;
@@ -1077,7 +1270,7 @@ a.song-option {
   padding-bottom: 0.3rem;
 }
 
-li a:hover, .stay-list:hover .stay-dropdown {
+li sel.a:hover, .stay-list:hover .stay-dropdown {
   border-bottom: 0.01rem solid;
 }
 
