@@ -3,9 +3,10 @@ var animate = window.requestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     function (callback) { window.setTimeout(callback, 1000 / 60) };
 
-var canvas = document.createElement('canvas');
-canvas.width = window.innerWidth / 2;
-canvas.height = canvas.width * (6 / 7);
+var canvasParent = document.getElementById("game-parent");
+var canvas = document.getElementById("game");
+canvas.width = window.innerWidth/2;
+canvas.height = canvas.width * (6/7);
 var context = canvas.getContext('2d');
 
 var holeRadius = canvas.width / 16;
@@ -42,7 +43,7 @@ var chipDropped = new DropChip(null, 0, null);
 var cpu = new CPU();
 
 window.onload = function () {
-    document.body.appendChild(canvas);
+    canvasParent.appendChild(canvas);
     animate(step);
 };
 

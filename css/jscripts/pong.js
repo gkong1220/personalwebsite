@@ -3,7 +3,8 @@ var animate = window.requestAnimationFrame ||
   window.mozRequestAnimationFrame ||
   function(callback) { window.setTimeout(callback, 1000/60) };
 
-var canvas = document.createElement('canvas');
+var canvasParent = document.getElementById("game-parent");
+var canvas = document.getElementById("game");
 var width = 600;
 var height = 400;
 canvas.width = window.innerWidth/2;
@@ -21,7 +22,7 @@ var lastMove = 0;
 var winner = null;
 
 window.onload = function() {
-    document.body.appendChild(canvas);
+    canvasParent.appendChild(canvas);
     animate(step);
 };
 

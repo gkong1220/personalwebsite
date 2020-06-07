@@ -8,17 +8,22 @@
 
     <body>
         <div class="navigate">
-            <a class="hme arrow stay" href="creatives.html"><- creatives</a> 
+            <a class="hme arrow stay" href="index.html"><- home</a> 
         </div> 
-        <div class="standard-content-body creatives-pages atari-body">
+        <div class="standard-content-body creatives-pages">
             <div class="creatives-content-title">connect.iv</div>
             <div class="creatives-content-subtitle">competitive connect-the-dots w/ gravity</div>
             <div class="creatives-content-scroll-prompt">(scroll for content)</div>
-            <div class="creatives-content-rules">
-                <ul class="rules connect">
-                    <li>Click on a column to drop chip.</li>
-                    <li>"N" key to start new game.</li>
-                </ul>
+            <div class="content-container">
+                <div class="creatives-content-rules">
+                    <ul class="rules">
+                        <li>Click on a column to drop chip.</li>
+                        <li>"N" key to start new game.</li>
+                    </ul>
+                </div>
+                <div id="game-parent" class="canvas-parent">
+                    <canvas id="game">Browser does not support canvas.</canvas>
+                </div>
             </div>
             <div class="creatives-content">
                 <script src="css/jscripts/jquery-3.4.1.min.js"></script>

@@ -5,32 +5,29 @@
 		<link rel="stylesheet" href="css/application.css">
 		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 	</head>
-	<body class="creatives-pages atari-body">
+	<body>
 		<div class="navigate">
-			<a class="hme arrow" href="creatives.html"><- creatives</a>
+			<a class="hme arrow" href="index.html"><- home</a>
 		</div>
-		<div class="creatives-content-title">atari</div>
-		<div class="creatives-content-subtitle">aka pong</div>
-		<div class="creatives-content-scroll-prompt">(scroll for content)</div>
-		<div class="creatives-content-rules">
-			<ul class="atari rules">
-				<li>Up/Down arrow keys to move paddle.</li>
-				<li>Space bar to serve.</li>
-				<li>"N" key to restart scoring.</li>
-			</ul>
+		<div class="creatives-pages atari-body">
+			<div class="creatives-content-title">atari</div>
+			<div class="creatives-content-subtitle">aka pong</div>
+			<div class="creatives-content-scroll-prompt">(scroll for content)</div>
+			<div class="content-container">
+				<div class="creatives-content-rules">
+					<ul class="rules">
+						<li>Up/Down arrow keys to move paddle.</li>
+						<li>Space bar to serve.</li>
+						<li>"N" key to restart scoring.</li>
+					</ul>
+				</div>
+				<div id="game-parent" class="canvas-parent atari-game">
+					<canvas id="game">Browser does not support canvas.</canvas>
+				</div>
+			</div>
+			<script src="css/jscripts/jquery-3.4.1.min.js"></script>
+			<script src="css/jscripts/pong.js"></script>
+			<script src="css/jscripts/scrollmore.js"></script>
 		</div>
-		<script src="css/jscripts/jquery-3.4.1.min.js"></script>
-		<script src="css/jscripts/pong.js"></script>
-		<script src="css/jscripts/scrollmore.js"></script>
-		<!--
-		<form class="leader-form" method="POST" action="css/phpscripts/pongleaderboard.php">
-			Name: <input type="text" name="name"><br>
-			Score: <input type="text" name="score"><br>
-			<input type="submit">
-		</form>
-		-->
-        <div class="creatives-content">
-
-        </div>
 	</body>
 </html>

@@ -616,7 +616,8 @@ header {
 }
 
 .atari-body {
-  overflow: auto;
+  margin-right: 25vw;
+  margin-left: 25vw;
 }
 
 .opening-body {
@@ -698,14 +699,16 @@ header {
 
 .creatives-content-rules {
   padding-top: 35vh;
+  float: left;
   width: 100%;
   display: block;
-  position: absolute;
+  position: relative;
 }
 
 .creatives-content-scroll-prompt {
   font-size: 1rem;
-  width: 100%;
+  width: 50vw;
+  margin: auto;
   top: 95vh;
   position: absolute;
   display: block;
@@ -778,6 +781,14 @@ header {
   padding-bottom: 15vh;
 }
 
+.content-container {
+  top: 25vh;
+  position: relative;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .content-paragraph {
   margin-bottom: 5vh;
 }
@@ -794,12 +805,10 @@ ul.rules {
   text-align: left;
   text-justify: left;
   width: 100%;
-  position: absolute;
   height: auto;
   display: block;
   list-style-position: inside;
   padding-top: 10vh;
-  padding-bottom: 2vh;
   -webkit-padding-start: 0;
 }
 
@@ -809,6 +818,10 @@ ul.atari {
 
 ul.connect {
   top: 57vh;
+}
+
+.atari-game {
+  top: -5vh;
 }
 
 .opening-player {
@@ -927,13 +940,20 @@ img.face {
   position: relative;
 }
 
+.canvas-parent {
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  margin: auto;
+  position: relative;
+}
+
 canvas {
-  top: 120vh;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  position: absolute;
-  display: block;
-  width: 100%;
+  display: inline;
 }
 
 .container {
@@ -1024,7 +1044,7 @@ canvas {
   width: 100%;
   height: auto;
   text-align: center;
-  display: inline-block;
+  display: block;
 }
 
 i {
