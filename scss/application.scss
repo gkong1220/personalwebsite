@@ -37,8 +37,6 @@ body {
   position: relative;
   background-color:transparent;
   background-size: cover;
-  width: 100vw;
-  height: auto;
   margin: 0;
 }
 
@@ -908,6 +906,7 @@ iframe {
 }
 
 .stay-menu {
+  overflow: hidden;
   border-radius: 1rem;
   padding-left: 1rem;
   padding-bottom: 1rem;

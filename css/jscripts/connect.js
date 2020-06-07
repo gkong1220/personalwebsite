@@ -28,10 +28,12 @@ if (playerStart) {
 } else {
     var playerTurn = false;
 }
+var checkTrigger = playerStart ? "player" : "cpu";
 //var playerTurn = false;
 var winner = null;
 var winningHoles = [];
 var keysDown = {};
+var keysUp = {};
 var mouseDown = false;
 
 manila = "#4a7cff";
@@ -56,7 +58,8 @@ window.addEventListener("keydown", function (event) {
 
 window.addEventListener("keyup", function (event) {
     mouseDown = false;
-    delete keysDown[event.keyCode];
+    //delete keysDown[event.keyCode];
+    keysUp[event.keyCode] = true;
 });
 
 window.addEventListener("mousemove", function(event) {
@@ -197,22 +200,25 @@ function Board() {
 Board.prototype.update = function(hole, owner) {
     hole[1] = owner;
     var four = neighbours(this.holes.indexOf(hole), owner)[1];
-    var checkTrigger = playerStart ? "player" : "cpu";
     if (four) {
         winningHoles = four;
         winner = owner;
     }
-    else if (owner == checkTrigger) {
+    // update scores for cpu analysis if player's turn and if no winner found
+    else if (owner == "player") {
         for (var column = 0; column < 7; column++) {
+            // if column has not been filled and column is not dangerous (to be avoided)
             if (cpuScores[column] != null && cpuScores[column] != "danger") {
                 for (var i = 0; i < 6; i++) {
-                    var totalHoleScore = colWeight[column];
-                    potentialOwners = ["cpu", "player"];
+                    // check for next empty hole to evaluate potential next move
                     if (this.holes[columnBottoms[column] - i][1] == null) {
+                        var totalHoleScore = colWeight[column];
+                        potentialOwners = ["cpu", "player"];
+                        // update scores for owners
                         for (var ownerPtr of potentialOwners) {
-                            //console.log(ownerPtr);
                             var posScores = neighbours(columnBottoms[column] - i, ownerPtr)[0];
-                            //console.log(posScores);
+                            // positional score quickly increases as number of in-a-row increases
+                            // score increases more slowly if not in-a-row
                             for (const [key, value] of Object.entries(posScores)) {
                                 totalHoleScore += (Math.pow(value, value));
                             }
@@ -228,33 +234,6 @@ Board.prototype.update = function(hole, owner) {
             }
         }
     }
-    /*
-    else {
-        for (var column = 0; column < 7; column++) {
-            if (cpuScores[column] != null && cpuScores[column] != "danger") {
-                for (var i = 0; i < 6; i++) {
-                    var totalHoleScore = colWeight[column];
-                    potentialOwners = ["cpu", "player"];
-                    if (this.holes[columnBottoms[column] - i][1] == null) {
-                        for (var ownerPtr of potentialOwners) {
-                            //console.log(ownerPtr);
-                            var posScores = neighbours(columnBottoms[column] - i, ownerPtr)[0];
-                            //console.log(posScores);
-                            for (const [key, value] of Object.entries(posScores)) {
-                                totalHoleScore += (Math.pow(value, value));
-                            }
-                            if (ownerPtr == "cpu") {
-                                cpuScores[column] = totalHoleScore;
-                            } else {
-                                playerScores[column] = totalHoleScore;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-    } */
 };
 
 Board.prototype.render = function() {
@@ -290,22 +269,24 @@ Board.prototype.render = function() {
 };
 
 Board.prototype.reset = function() {
-    for (var key in keysDown) {
+    for (var key in keysUp) {
         var value = Number(key);
-        if (value == 78) {
+        if (value == 78 && keysDown[key]) {
+            delete keysUp[78];
+            delete keysDown[78];
             winner = null;
             winningHoles = [];
             playerTurn = !playerStart;
             playerStart = !playerStart;
+            checkTrigger = playerStart ? "player" : "cpu";
+            console.log(playerStart);
             cpuScores = [0, 0, 0, 0, 0, 0, 0];
             playerScores = [0, 0, 0, 0, 0, 0, 0];
             if (dropTrigger) {
                 dropTrigger = false;
                 chipDropped = new DropChip(null, 0, null);
-                board = new Board();
-            } else {
-                board = new Board();
             }
+            board = new Board();
         }
     }
 };
@@ -429,34 +410,47 @@ var determineLowest = function(colBottom) {
 };
 
 var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
-    if (!playerStart && !cpuScoresScratch.some(item => item !== 0)) {
+    // choose middle column if cpu goes first
+    if (!playerStart && !cpuScoresScratch.some(item => item != 0)) {
         retCol = columnBottoms[3];
+    } else if (!cpuScoresScratch.some(item => item != null)) {
+        retCol = -1;
     } else {
         noRowFound = true;
         var retCol = null;
         winningMove = false;
+
+        // make copies of score counters
         cpuScoresCopy = cpuScoresScratch.slice();
         playerScoresCopy = playerScoresScratch.slice();
-        dangerFound = false;
         while (noRowFound) {
+            // find most advantageous column to drop chip
             cpuBest = Math.max(...cpuScoresCopy.filter(val => val != null && val != "danger" && val != "trap"));
+            // if valid max
             if (cpuBest && cpuBest != -Infinity) {
+                // find most dangerous column
                 playerBest = Math.max(...playerScoresCopy.filter(val => val != null));
                 var zonePtr = null;
+                // if no current threat or winning move, choose most advantageous column
                 if (cpuBest >= 255 || playerBest < 26) {
                     if (cpuBest >= 255) {
                         winningMove = true;
                     }
                     zonePtr = cpuScoresCopy.indexOf(cpuBest);
                 } else {
+                    // else counter greatest threat
                     zonePtr = playerScoresCopy.indexOf(playerBest);
                 }
                 retCol = columnBottoms[zonePtr];
+                // if column has not filled up - survey consequences of selected collumn
                 if (!board.holes[retCol - 5][1]) {
-                    //console.log("false");
+
+                    // look at chip position above proposed dropped chip position
                     nextHoleIndex = determineLowest(retCol) - 1;
+                    // if nextHole found resides within same column and current move is not a winning move
                     if (retCol - nextHoleIndex < 6 && !winningMove) {
                         nextCpuWinner = neighbours(nextHoleIndex, "cpu")[1];
+                        // if next hole is a winning move and current move doesn't prevent a loss, set trap by ignoring column for current move
                         if (nextCpuWinner) {
                             if (playerScoresCopy[zonePtr] < 255) {
                                 cpuScoresCopy[zonePtr] = "trap";
@@ -466,29 +460,28 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
                                 nextCpuWinner = false;
                             }
                         }
+                        // survey consequences for player with dropped chip
                         [nextScores, nextWinner] = neighbours(nextHoleIndex, "player");
+                        // if dropped chip results in a loss mark column as danger
                         if (nextWinner) {
                             cpuScoresCopy[zonePtr] = "danger";
-                            playerScoresCopy[zonePtr] = null;
-                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
-                        //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
-                            //retCol = calcDrop(cpuScoresCopy, playerScoresCopy);               
+                            playerScoresCopy[zonePtr] = null;            
                         }
+                        // if trap or dangers are detected, reconsider best move
                         if (nextCpuWinner || nextWinner) {
                             retCol = calcDrop(cpuScoresCopy, playerScoresCopy);
                         }
                     }
                     noRowFound = false;
                 } else {
+                    // else remove column from consideration and find next best column
                     cpuScoresScratch[zonePtr] = null;
                     playerScoresScratch[zonePtr] = null;
-                    //cpuScoresNull = cpuScoresScratch.slice(0, zonePtr).concat(cpuScoresScratch.slice((zonePtr+1), cpuScoresScratch.length));
-                    //playerScoresNull = playerScoresScratch.slice(0, zonePtr).concat(playerScoresScratch.slice((zonePtr + 1), playerScoresScratch.length));
-                    //console.log(cpuScoresScratch);
                     retCol = calcDrop(cpuScoresScratch, playerScoresScratch);
                     noRowFound = false;
                 }
             } else {
+                // if no other options bite the bullet
                 for (var i = 0; i < cpuScoresScratch.length; i++) {
                     if (cpuScoresScratch[i] == "danger") {
                         retCol = columnBottoms[i];
@@ -498,22 +491,23 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
             }
         }
     }
-    //console.log(cpuScoresCopy);
     return retCol;
 };
 
 CPU.prototype.update = function () {
     if (!playerTurn && !winner) {
         col = calcDrop(cpuScores, playerScores);
-        for (var j = 0; j < 6; j++) {
-            if (!board.holes[col - j][1] && !dropTrigger) {
-                this.chip.owner = "cpu";
-                this.chip.move(topXCoords[Math.floor(col/6)]);
-                chipDropped.droppingchip.col = board.holes[col][0][0];
-                chipDropped.droppingchip.owner = "cpu";
-                chipDropped.droppingchip.dest = board.holes[col - j];
-                dropTrigger = true;
-                break;
+        if (col != -1) {
+            for (var j = 0; j < 6; j++) {
+                if (!board.holes[col - j][1] && !dropTrigger) {
+                    this.chip.owner = "cpu";
+                    this.chip.move(topXCoords[Math.floor(col/6)]);
+                    chipDropped.droppingchip.col = board.holes[col][0][0];
+                    chipDropped.droppingchip.owner = "cpu";
+                    chipDropped.droppingchip.dest = board.holes[col - j];
+                    dropTrigger = true;
+                    break;
+                }
             }
         }
     } else {
