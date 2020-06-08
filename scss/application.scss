@@ -949,7 +949,8 @@ a.song-option {
 }
 
 .stay-text {
-  font-size: 1.2rem;
+  //color: rgb(219, 217, 217);
+  font-size: 1.4rem;
 }
 
 .stay-options {
@@ -1003,7 +1004,6 @@ li sel.a:hover, .stay-list:hover .stay-dropdown {
   display: inline-block;
   opacity: 1;
   width: 5vw;
-  //color: $wolf;
   border-bottom: none;
 }
 
