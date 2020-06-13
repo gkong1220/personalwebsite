@@ -495,6 +495,87 @@ body.home_page {
   margin-top: 5vh;
 }
 
+.about-body {
+  background-color: black;
+  background-image: url("images/room.jpg");
+  background-position: center;
+  -webkit-animation: fadein 2s ease-in-out;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  /* Opera < 12.1 */
+  animation: fadein 2s ease-in-out;
+}
+
+.about-content {
+  border-radius: 1rem;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding-left: 2vw;
+  padding-right: 2vw;
+  position: absolute;
+  top: 52vh;
+  left: 12vw;
+  width: 40vw;
+  height: 40vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.about-content:hover {
+  overflow-y: scroll;
+  -webkit-animation: 1s ease-in-out;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  /* Opera < 12.1 */
+  animation: 1s ease-in-out;
+}
+
+.about-text {
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+  word-spacing: 0.6rem;
+  font-style: italic;
+}
+
+.about-link {
+  color: white;
+  text-decoration: none;
+}
+.about-link:hover {
+  color: #ffd966;
+}
+
+.about-title {
+  color: white;
+  font-size: 5rem;
+}
+
+.nav-no-drop {
+  float: right;
+  min-width: 6rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  padding-right: 1vw;
+}
+
+.nav-option {
+  float: right;
+  display: block;
+  font-size: 1.2rem;
+  color: white;
+  width: 100%;
+  padding-bottom: 0.5vh;
+}
+.nav-option:hover {
+  color: #ffd966;
+  width: 100%;
+  border-bottom: 0.1rem solid #ffd966;
+}
+
 .mm-dropdown {
   float: right;
   overflow: hidden;
@@ -543,7 +624,6 @@ body.home_page {
 .games-dropdown {
   float: right;
   overflow: hidden;
-  padding-left: 3vw;
   width: 6rem;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -1406,3 +1486,23 @@ video {
 }
 /* Internet Explorer */
 /* Opera < 12.1 */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 0.2rem;
+  background: #5C5C5C;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
