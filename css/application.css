@@ -496,6 +496,7 @@ body.home_page {
 }
 
 .about-body {
+  overflow: hidden;
   background-color: black;
   background-image: url("images/room.jpg");
   background-position: center;
@@ -510,25 +511,26 @@ body.home_page {
 .about-content {
   border-radius: 1rem;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.8);
   padding-left: 2vw;
   padding-right: 2vw;
   position: absolute;
-  top: 52vh;
+  top: 15vh;
   left: 12vw;
   width: 40vw;
   height: 40vh;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
-}
-.about-content:hover {
-  overflow-y: scroll;
-  -webkit-animation: 1s ease-in-out;
+  -webkit-transition: 1s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
   /* Internet Explorer */
+  -o-transition: 1s;
   /* Opera < 12.1 */
-  animation: 1s ease-in-out;
+  transition: 1s;
+}
+.about-content:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: scroll;
 }
 
 .about-text {
@@ -574,6 +576,35 @@ body.home_page {
   color: #ffd966;
   width: 100%;
   border-bottom: 0.1rem solid #ffd966;
+}
+
+.about-cred {
+  width: auto;
+  color: #ffffff;
+  font-style: italic;
+  font-size: 1rem;
+  position: relative;
+  top: 95vh;
+  left: 80vw;
+  -webkit-transition: 1s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  -o-transition: 1s;
+  /* Opera < 12.1 */
+  transition: 1s;
+}
+.about-cred:hover {
+  color: #ffd966;
+}
+
+a.about-link {
+  text-decoration: none;
+  color: white;
+}
+
+.bias-body {
+  background: white;
 }
 
 .mm-dropdown {
@@ -648,6 +679,7 @@ body.home_page {
 .games-dropdown-content {
   display: none;
   float: right;
+  width: 100%;
   padding-bottom: 1vh;
 }
 
@@ -1304,7 +1336,7 @@ iframe {
   float: left;
   position: relative;
   top: 50vh;
-  left: 45vw;
+  left: 55vw;
   width: 30vw;
   color: black;
   -webkit-transition: 1s;
