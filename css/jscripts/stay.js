@@ -31,12 +31,14 @@ $(".scene-option").click(function() {
         $(".scene-option.stay-action-active").not(this).removeClass("stay-action-active");
         currentScene.toggleClass("stay-action-active");
         if (currentScene.hasClass("stay-action-active")) {
+            document.getElementById("scene-menu").classList.add("selected");
             sceneDropdown.classList.add("active-dropdown-content");
             selectedScene = currentScene.text();
             prevScene = selectedScene;
             document.getElementById(selectedScene).addEventListener("ended", function(event) {
                 selectedScene = null;
-                if (!selectedScene && !selectedSong && !selectedSound) {
+                console.log("selected sounds: " + selectedSounds);
+                if (!selectedScene && !selectedSong && (!selectedSounds || !selectedSounds.length)) {
                     closeAll(prevScene);
                 }
             })
@@ -46,12 +48,13 @@ $(".scene-option").click(function() {
             //document.addEventListener("mousemove", fadeMenu(timer));
             //sceneTitle.style.borderBottom = "0.01rem solid";
         } else {
+            document.getElementById("scene-menu").classList.remove("selected");
             sceneDropdown.classList.remove("active-dropdown-content");
             selectedScene = null;
             //sceneTitle.style.borderBottom = "none";
         }
 
-        if (selectedScene || selectedSong || selectedSound) {
+        if (selectedScene || selectedSong || selectedSounds) {
             document.getElementById("instructions").innerHTML = "press space key anytime to play/stop movie moment...";
         } else {
             document.getElementById("instructions").innerHTML = "please select a scene, a song, and/or a sound...";
@@ -85,22 +88,25 @@ $(".song-option").click(function() {
         $(".song-option.stay-action-active").not(this).removeClass("stay-action-active");
         currentSong.toggleClass("stay-action-active");
         if (currentSong.hasClass("stay-action-active")) {
+            document.getElementById("song-menu").classList.add("selected");
             songDropdown.classList.add("active-dropdown-content");
             selectedSong = currentSong.text();
             document.getElementById(selectedSong).addEventListener("ended", function(event) {
                 console.log("song ended");
+                console.log("selected sounds: " + selectedSounds);
                 selectedSong = null;
-                if (!selectedScene && !selectedSong && !selectedSound) {
+                if (!selectedScene && !selectedSong && (!selectedSounds || !selectedSounds.length)) {
                     closeAll(prevScene);
                 }
             })
             //document.addEventListener("mousemove", fadeMenu(timer));
         } else {
+            document.getElementById("song-menu").classList.remove("selected");
             songDropdown.classList.remove("active-dropdown-content");
             selectedSong = null;
         }
 
-        if (selectedScene || selectedSong || selectedSound) {
+        if (selectedScene || selectedSong || selectedSounds) {
             document.getElementById("instructions").innerHTML = "press space key anytime to play/stop movie moment...";
         } else {
             document.getElementById("instructions").innerHTML = "please select a scene, a song, and/or a sound...";
@@ -116,22 +122,35 @@ $(".sound-option").click(function() {
         currentSound.toggleClass("stay-action-active");
         if (currentSound.hasClass("stay-action-active")) {
             if (!soundDropdown.classList.contains("active-dropdown-content")) {
+                document.getElementById("sound-menu").classList.add("selected");
                 soundDropdown.classList.add("active-dropdown-content");
             }
             selectedSound = currentSound.text();
             selectedSounds.push(selectedSound);
-            document.getElementById(selectedSound).addEventListener("ended", function(event) {
-                console.log("sound ended");
-                selectedSounds.pop();
-                //selectedSound = null;
-                if (!selectedScene && !selectedSong && !selectedSounds) {
-                    closeAll(prevScene);
+            if (selectedSounds && selectedSounds.length) {
+                for (var i = 0; i < selectedSounds.length; i++) {
+                    document.getElementById(selectedSounds[i]).addEventListener("ended", function(event) {
+                        console.log(selectedSounds[i] + "ended");
+                        selectedSounds.pop();
+                        console.log("selected sounds: " + selectedSounds);
+                        if (!selectedScene && !selectedSong && (!selectedSounds || !selectedSounds.length)) {
+                            closeAll(prevScene);
+                        }
+                    })
                 }
-            })
+            }
             //document.addEventListener("mousemove", fadeMenu(timer));
         } else {
-            soundDropdown.classList.remove("active-dropdown-content");
-            selectedSound = null;
+            if (selectedSounds && selectedSounds.length) {
+                var indexRemoveSound = selectedSounds.indexOf(currentSound.text());
+                if (indexRemoveSound != -1) {
+                    selectedSounds.splice(indexRemoveSound, 1);
+                }
+            } else if (!selectedSounds || !selectedSounds.length) {
+                document.getElementById("sound-menu").classList.remove("selected");
+                soundDropdown.classList.remove("active-dropdown-content");
+                selectedSounds = [];
+            }
         }
 
         if (selectedScene || selectedSong || selectedSounds) {
@@ -184,16 +203,14 @@ window.addEventListener("keydown", function(event) {
                 playing = true;
             }
 
-            if (selectedSounds != null && document.getElementById(selectedSound).paused) {
+            if (selectedSounds && selectedSounds.length) {
+                console.log(selectedSounds);
                 for (var i = 0; i < selectedSounds.length; i++) {
-                    document.getElementById(selectedSounds[i]).currentTime = 0;
+                    if (document.getElementById(selectedSounds[i]).paused) {
+                        document.getElementById(selectedSounds[i]).currentTime = 0;
+                        document.getElementById(selectedSounds[i]).play();
+                    }
                 }
-                for (var i = 0; i < selectedSounds.length; i++) {
-                    //console.log(selectedSounds[i]);
-                    document.getElementById(selectedSounds[i]).play();
-                }
-                //document.getElementById(selectedSound).currentTime = 0;
-                //document.getElementById(selectedSound).play();
                 playing = true;
             }
         } else if (playing) {
@@ -201,12 +218,14 @@ window.addEventListener("keydown", function(event) {
                 document.getElementById(selectedScene).pause();
                 document.getElementById("menu").classList.remove("media-playing");
                 document.getElementById(selectedScene).classList.add("hide-scene");
+                document.getElementById("scene-menu").classList.remove("selected");
                 //sceneDropdown.classList.remove("active-dropdown-content");
                 //$(".scene-option.stay-action-active").removeClass("stay-action-active");
                 selectedScene = null;
             }
 
             if (selectedSong != null && !document.getElementById(selectedSong).paused) {
+                document.getElementById("song-menu").classList.remove("selected");
                 document.getElementById(selectedSong).pause();
                 //songDropdown.classList.remove("active-dropdown-content");
                 //$(".song-option.stay-action-active").removeClass("stay-action-active");
@@ -214,6 +233,7 @@ window.addEventListener("keydown", function(event) {
             }
 
             if (selectedSounds != null) {
+                document.getElementById("sound-menu").classList.remove("selected");
                 for (var i = 0; i < selectedSounds.length; i++) {
                     document.getElementById(selectedSounds[i]).pause();
                 }
@@ -236,22 +256,28 @@ window.addEventListener("keyup", function(event) {
 });
 
 var closeAll = function(lastClip) {
+    console.log("closing");
     console.log(lastClip);
     if (lastClip) {
         //close scene
         document.getElementById("menu").classList.remove("media-playing");
         document.getElementById(lastClip).classList.add("hide-scene");
     }
+
+    document.getElementById("scene-menu").classList.remove("selected");
     sceneDropdown.classList.remove("active-dropdown-content");
     $(".scene-option.stay-action-active").removeClass("stay-action-active");
 
     //close song
+    document.getElementById("song-menu").classList.remove("selected");
     songDropdown.classList.remove("active-dropdown-content");
     $(".song-option.stay-action-active").removeClass("stay-action-active");
 
     //close sound
+    document.getElementById("sound-menu").classList.remove("selected");
     soundDropdown.classList.remove("active-dropdown-content");
     $(".sound-option.stay-action-active").removeClass("stay-action-active");
+
     document.getElementById("instructions").innerHTML = "please select a scene, a song, and/or a sound...";
     playing = false;
 

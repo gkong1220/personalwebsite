@@ -1091,6 +1091,10 @@ li sel.a:hover, .stay-list:hover .stay-dropdown {
   border-bottom: 0.01rem solid;
 }
 
+.selected {
+  border-bottom: 0.01rem solid;
+}
+
 .stay-list:hover .dropdown-content {
   display: block;
 }
