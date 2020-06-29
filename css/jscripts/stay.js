@@ -183,6 +183,7 @@ $(document).mousemove(function() {
         if (selectedScene) {
             document.getElementById("scene-credit").textContent = sceneTitles[selectedScene];
             document.getElementById("scene-credit").classList.add("active");
+            document.getElementById("song-credit").style.color = "white";
             document.getElementById("song-credit").textContent = songTitles[selectedSong];
             document.getElementById("song-credit").classList.add("active");
         } else if (!selectedScene && selectedSong) {
