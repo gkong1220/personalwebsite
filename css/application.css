@@ -1485,6 +1485,63 @@ video {
   position: absolute;
 }
 
+.credits {
+  position: absolute;
+  width: 100vw;
+  height: auto;
+  overflow: hidden;
+  top: 87vh;
+  left: 5vw;
+}
+
+.video-title {
+  width: 100vw;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  position: relative;
+  font-size: 1.3rem;
+  color: transparent;
+  -webkit-transition: 4s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  -o-transition: 4s;
+  /* Opera < 12.1 */
+  transition: 4s;
+}
+
+.song-title {
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  position: relative;
+  font-size: 1rem;
+  color: transparent;
+  -webkit-transition: 2s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  -o-transition: 2s;
+  /* Opera < 12.1 */
+  transition: 2s;
+}
+
+.inactive {
+  color: transparent;
+}
+
+.active {
+  color: white;
+  -webkit-transition: 2s;
+  /* Safari, Chrome and Opera > 12.1 */
+  /* Firefox < 16 */
+  /* Internet Explorer */
+  -o-transition: 2s;
+  /* Opera < 12.1 */
+  transition: 2s;
+}
+
 .leader-form {
   position: relative;
   height: auto;

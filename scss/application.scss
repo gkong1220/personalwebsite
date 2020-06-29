@@ -1175,8 +1175,54 @@ video {
   position: absolute;
 }
 
-.option-title {
+.credits {
+  position: absolute;
+  width: 100vw;
+  height: auto;
+  overflow: hidden;
+  top: 87vh;
+  left: 5vw;
+}
 
+.video-title {
+  width: 100vw;
+  //float: left;
+  justify-content: left;
+  position: relative;
+  font-size: 1.3rem;
+  color: transparent;
+
+  -webkit-transition: 4s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 4s; /* Firefox < 16 */
+  -ms-transition: 4s; /* Internet Explorer */
+  -o-transition: 4s; /* Opera < 12.1 */
+  transition: 4s;
+}
+
+.song-title {
+  justify-content: left;
+  position: relative;
+  font-size: 1rem;
+  color: transparent;
+
+  -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 2s; /* Firefox < 16 */
+  -ms-transition: 2s; /* Internet Explorer */
+  -o-transition: 2s; /* Opera < 12.1 */
+  transition: 2s;
+}
+
+.inactive {
+  color: transparent;
+}
+
+.active {
+  color: white;
+  -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 2s; /* Firefox < 16 */
+  -ms-transition: 2s; /* Internet Explorer */
+  -o-transition: 2s; /* Opera < 12.1 */
+  transition: 2s;
 }
 
 .leader-form {

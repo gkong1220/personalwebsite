@@ -24,6 +24,14 @@ var playing = false;
 //videos
 var malickVideo = document.getElementById("malick");
 
+var sceneTitles = {"malick": "Tree of Life (2011) - T. Malick",
+                    "nolan": "Dunkirk (2017) - C. Nolan",
+                    "villeneuve": "Blade Runner 2049 (2017) - D. Villeneuve"}
+
+var songTitles = {"richter": "\"On the Nature of Daylight\" - M. Richter",
+                    "taverner": "\"Funeral Canticle\" - J. Taverner",
+                    "vangelis": "\"Tears in Rain\" - Vangelis"}
+
 
 $(".scene-option").click(function() {
     if (!playing) {
@@ -69,6 +77,8 @@ $(".scene-option").mouseover(function() {
         document.getElementById("menu").classList.add("media-playing");
         document.getElementById($(this).text()).classList.remove("hide-scene");
         document.getElementById($(this).text()).play();
+        document.getElementById("scene-credit").textContent = sceneTitles[$(this).text()];
+        document.getElementById("scene-credit").classList.add("active");
     }
 })
 
@@ -77,6 +87,7 @@ $(".scene-option").mouseleave(function () {
         document.getElementById(activeScene.text()).pause();
         document.getElementById("menu").classList.remove("media-playing");
         document.getElementById(activeScene.text()).classList.add("hide-scene");
+        document.getElementById("scene-credit").classList.remove("active");
         activeScene = null;
     }
 })
@@ -162,24 +173,33 @@ $(".sound-option").click(function() {
 })
 
 $(document).mousemove(function() {
-    if (playing && selectedScene) {
+    if (playing) {
         console.log("detected mouse");
         if (timer) {
             clearTimeout(timer);
             timer = 0;
         }
-    
-        document.getElementById("menu").classList.remove("media-playing-fadeout");
-        $(".scene-option.stay-action-active").removeClass("stay-action-fade");
-        $(".song-option.stay-action-active").removeClass("stay-action-fade");
-        $(".sound-option.stay-action-active").removeClass("stay-action-fade");
+
+        if (selectedScene) {
+            document.getElementById("scene-credit").textContent = sceneTitles[selectedScene];
+            document.getElementById("scene-credit").classList.add("active");
+            document.getElementById("song-credit").textContent = songTitles[selectedSong];
+            document.getElementById("song-credit").classList.add("active");
+        } else if (!selectedScene && selectedSong) {
+            document.getElementById("song-credit").textContent = songTitles[selectedSong];
+            document.getElementById("song-credit").style.color = "black";
+        }
 
         timer = setTimeout(function() {
-            $(".scene-option.stay-action-active").addClass("stay-action-fade");
-            $(".song-option.stay-action-active").addClass("stay-action-fade");
-            $(".sound-option.stay-action-active").addClass("stay-action-fade");
-            document.getElementById("menu").classList.add("media-playing-fadeout");
-        }, 2000)
+            if (selectedScene) {
+                $(".scene-option.stay-action-active").addClass("stay-action-fade");
+                $(".song-option.stay-action-active").addClass("stay-action-fade");
+                $(".sound-option.stay-action-active").addClass("stay-action-fade");
+                document.getElementById("menu").classList.add("media-playing-fadeout");
+                document.getElementById("scene-credit").classList.remove("active");
+                document.getElementById("song-credit").classList.remove("active");
+            }
+        }, 6000)
     } else if(!playing) {
         clearTimeout(timer);
     }
@@ -194,6 +214,14 @@ window.addEventListener("keydown", function(event) {
                 document.getElementById(selectedScene).currentTime = 0;
                 document.getElementById(selectedScene).classList.remove("hide-scene");
                 document.getElementById(selectedScene).play();
+                timer = setTimeout(function() {
+                    $(".scene-option.stay-action-active").addClass("stay-action-fade");
+                    $(".song-option.stay-action-active").addClass("stay-action-fade");
+                    $(".sound-option.stay-action-active").addClass("stay-action-fade");
+                    document.getElementById("menu").classList.add("media-playing-fadeout");
+                    document.getElementById("scene-credit").classList.remove("active");
+                    //document.getElementById("scene-credit").textContent = "";
+                }, 2000)
                 playing = true;
             }
 
@@ -201,6 +229,10 @@ window.addEventListener("keydown", function(event) {
                 document.getElementById(selectedSong).currentTime = 0;
                 document.getElementById(selectedSong).play();
                 playing = true;
+                if (!selectedScene && selectedSong) {
+                    document.getElementById("song-credit").textContent = songTitles[selectedSong];
+                    document.getElementById("song-credit").style.color = "black";
+                }
             }
 
             if (selectedSounds && selectedSounds.length) {
@@ -227,6 +259,8 @@ window.addEventListener("keydown", function(event) {
             if (selectedSong != null && !document.getElementById(selectedSong).paused) {
                 document.getElementById("song-menu").classList.remove("selected");
                 document.getElementById(selectedSong).pause();
+                document.getElementById("song-credit").textContent = "";
+                //document.getElementById("song-credit").style.color = "transparent";
                 //songDropdown.classList.remove("active-dropdown-content");
                 //$(".song-option.stay-action-active").removeClass("stay-action-active");
                 selectedSong = null;
@@ -269,6 +303,8 @@ var closeAll = function(lastClip) {
     $(".scene-option.stay-action-active").removeClass("stay-action-active");
 
     //close song
+    //document.getElementById("song-credit").style.color = "transparent";
+    document.getElementById("song-credit").textContent = "";
     document.getElementById("song-menu").classList.remove("selected");
     songDropdown.classList.remove("active-dropdown-content");
     $(".song-option.stay-action-active").removeClass("stay-action-active");

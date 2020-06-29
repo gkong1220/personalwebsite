@@ -68,8 +68,10 @@ window.addEventListener("mousemove", function(event) {
 } );
 
 window.addEventListener("click", function(event) {
-    var rect = canvas.getBoundingClientRect();
-    mouseClickLoc = [event.clientX - rect.left, event.clientY - rect.top];
+    if (!winner) {
+        var rect = canvas.getBoundingClientRect();
+        mouseClickLoc = [event.clientX - rect.left, event.clientY - rect.top];
+    }
 }, false );
 
 var step = function () {
@@ -360,11 +362,11 @@ Player.prototype.update = function () {
     for (var i = 0; i < board.holes.length; i++) {
         context.beginPath();
         context.arc(board.holes[i][0][0], board.holes[i][0][1], holeRadius, 2 * Math.PI, false);
-        if (context.isPointInPath(mouseClickLoc[0], mouseClickLoc[1]) || 
+        if ((context.isPointInPath(mouseClickLoc[0], mouseClickLoc[1]) || 
             (mouseClickLoc[0] < (topXCoords[Math.floor(i / 6)] + holeRadius) && 
             mouseClickLoc[0] > (topXCoords[Math.floor(i / 6)] - holeRadius) && 
             mouseClickLoc[1] < (board.holes[5][0][1] + holeRadius) && 
-            mouseClickLoc[1] > (board.holes[0][0][1] - (2 * holeRadius)))) 
+            mouseClickLoc[1] > (board.holes[0][0][1] - (2 * holeRadius)))) && !winner) 
             {
             mouseClickLoc = [];
             var columnHead = columnBottoms[Math.floor(i/6)];
@@ -442,7 +444,7 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
                     zonePtr = playerScoresCopy.indexOf(playerBest);
                 }
                 retCol = columnBottoms[zonePtr];
-                // if column has not filled up - survey consequences of selected collumn
+                // if column has not filled up - survey consequences of selected column
                 if (!board.holes[retCol - 5][1]) {
 
                     // look at chip position above proposed dropped chip position
@@ -481,12 +483,23 @@ var calcDrop = function(cpuScoresScratch, playerScoresScratch) {
                     noRowFound = false;
                 }
             } else {
-                // if no other options bite the bullet
-                for (var i = 0; i < cpuScoresScratch.length; i++) {
-                    if (cpuScoresScratch[i] == "danger") {
-                        retCol = columnBottoms[i];
-                        noRowFound = false;
+                if (cpuScoresCopy.indexOf("danger") >= 0) {
+                    // if no other options bite the bullet
+                    for (var i = 0; i < cpuScoresScratch.length; i++) {
+                        if (cpuScoresScratch[i] == "danger") {
+                            retCol = columnBottoms[i];
+                            noRowFound = false;
+                        }
                     }
+                } else if (cpuScoresCopy.indexOf("trap") >= 0) {
+                    console.log("trap only");
+                    for (var i = 0; i < cpuScoresScratch.length; i++) {
+                        if (cpuScoresScratch[i] == "trap") {
+                            retCol = columnBottoms[i];
+                            noRowFound = false;
+                        }
+                    }
+                } else {
                 }
             }
         }
