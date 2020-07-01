@@ -87,6 +87,7 @@ $(".scene-option").mouseleave(function () {
         document.getElementById(activeScene.text()).pause();
         document.getElementById("menu").classList.remove("media-playing");
         document.getElementById(activeScene.text()).classList.add("hide-scene");
+        document.getElementById("scene-credit").textContent = "...";
         document.getElementById("scene-credit").classList.remove("active");
         activeScene = null;
     }
@@ -183,12 +184,9 @@ $(document).mousemove(function() {
         if (selectedScene) {
             document.getElementById("scene-credit").textContent = sceneTitles[selectedScene];
             document.getElementById("scene-credit").classList.add("active");
-            document.getElementById("song-credit").style.color = "white";
             document.getElementById("song-credit").textContent = songTitles[selectedSong];
             document.getElementById("song-credit").classList.add("active");
-        } else if (!selectedScene && selectedSong) {
-            document.getElementById("song-credit").textContent = songTitles[selectedSong];
-            document.getElementById("song-credit").style.color = "black";
+            document.getElementById("press-space").classList.add("active");
         }
 
         timer = setTimeout(function() {
@@ -199,6 +197,7 @@ $(document).mousemove(function() {
                 document.getElementById("menu").classList.add("media-playing-fadeout");
                 document.getElementById("scene-credit").classList.remove("active");
                 document.getElementById("song-credit").classList.remove("active");
+                document.getElementById("press-space").classList.remove("active");
             }
         }, 6000)
     } else if(!playing) {
@@ -229,11 +228,11 @@ window.addEventListener("keydown", function(event) {
             if (selectedSong != null && document.getElementById(selectedSong).paused) {
                 document.getElementById(selectedSong).currentTime = 0;
                 document.getElementById(selectedSong).play();
-                playing = true;
                 if (!selectedScene && selectedSong) {
                     document.getElementById("song-credit").textContent = songTitles[selectedSong];
-                    document.getElementById("song-credit").style.color = "black";
+                    document.getElementById("song-credit").classList.add("active-no-scene");
                 }
+                playing = true;
             }
 
             if (selectedSounds && selectedSounds.length) {
@@ -246,6 +245,11 @@ window.addEventListener("keydown", function(event) {
                 }
                 playing = true;
             }
+
+            if (selectedScene) {
+                document.getElementById("press-space").textContent = "(press space-key anytime to stop)"
+                document.getElementById("press-space").classList.add("active");
+            } 
         } else if (playing) {
             if (selectedScene != null && !document.getElementById(selectedScene).paused) {
                 document.getElementById(selectedScene).pause();
@@ -260,8 +264,10 @@ window.addEventListener("keydown", function(event) {
             if (selectedSong != null && !document.getElementById(selectedSong).paused) {
                 document.getElementById("song-menu").classList.remove("selected");
                 document.getElementById(selectedSong).pause();
-                document.getElementById("song-credit").textContent = "";
-                //document.getElementById("song-credit").style.color = "transparent";
+                document.getElementById("song-credit").textContent = "...";
+                if (document.getElementById("song-credit").classList.contains("active-no-scene")) {
+                    document.getElementById("song-credit").classList.remove("active-no-scene");
+                }
                 //songDropdown.classList.remove("active-dropdown-content");
                 //$(".song-option.stay-action-active").removeClass("stay-action-active");
                 selectedSong = null;
@@ -278,7 +284,7 @@ window.addEventListener("keydown", function(event) {
                 selectedSound = null;
             }
 
-            if (!selectedScene && !selectedSong && !selectedSounds) {
+            if (!selectedScene && !selectedSong && (!selectedSounds || !selectedSounds.length)) {
                 playing = false;
             }
             closeAll(prevScene);
@@ -299,13 +305,19 @@ var closeAll = function(lastClip) {
         document.getElementById(lastClip).classList.add("hide-scene");
     }
 
+    document.getElementById("scene-credit").textContent = "...";
     document.getElementById("scene-menu").classList.remove("selected");
     sceneDropdown.classList.remove("active-dropdown-content");
     $(".scene-option.stay-action-active").removeClass("stay-action-active");
 
     //close song
     //document.getElementById("song-credit").style.color = "transparent";
-    document.getElementById("song-credit").textContent = "";
+    document.getElementById("song-credit").textContent = "...";
+    if (document.getElementById("song-credit").classList.contains("active-no-scene")) {
+        document.getElementById("song-credit").classList.remove("active-no-scene");
+    } else if (document.getElementById("song-credit").classList.contains("active")) {
+        document.getElementById("song-credit").classList.remove("active");
+    }
     document.getElementById("song-menu").classList.remove("selected");
     songDropdown.classList.remove("active-dropdown-content");
     $(".song-option.stay-action-active").removeClass("stay-action-active");
@@ -314,6 +326,11 @@ var closeAll = function(lastClip) {
     document.getElementById("sound-menu").classList.remove("selected");
     soundDropdown.classList.remove("active-dropdown-content");
     $(".sound-option.stay-action-active").removeClass("stay-action-active");
+
+    document.getElementById("press-space").textContent = "..."
+    if (document.getElementById("press-space").classList.contains("active")) {
+        document.getElementById("press-space").classList.remove("active");
+    }
 
     document.getElementById("instructions").innerHTML = "please select a scene, a song, and/or a sound...";
     playing = false;

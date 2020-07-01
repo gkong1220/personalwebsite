@@ -1177,12 +1177,21 @@ video {
 }
 
 .credits {
+  color: transparent;
   position: absolute;
   width: 100vw;
   height: auto;
   overflow: hidden;
-  top: 87vh;
+  top: 80vh;
   left: 5vw;
+}
+
+.playing-directions {
+  -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 2s; /* Firefox < 16 */
+  -ms-transition: 2s; /* Internet Explorer */
+  -o-transition: 2s; /* Opera < 12.1 */
+  transition: 2s;
 }
 
 .video-title {
@@ -1205,6 +1214,16 @@ video {
   position: relative;
   font-size: 1rem;
   color: transparent;
+
+  -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-transition: 2s; /* Firefox < 16 */
+  -ms-transition: 2s; /* Internet Explorer */
+  -o-transition: 2s; /* Opera < 12.1 */
+  transition: 2s;
+}
+
+.active-no-scene {
+  color: black;
 
   -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-transition: 2s; /* Firefox < 16 */
