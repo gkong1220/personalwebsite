@@ -9,12 +9,16 @@
 	<body class="howru-body">
 		<a class="hme arrow stay" href="index.html"><- home</a>
 		<form>
-			<textarea name="Text1" cols="40" rows="13" class="h-input" placeholder="please feel free to type whatever's on your mind..."></textarea>
+			<textarea id="Text1" cols="40" rows="13" class="h-input" placeholder="please feel free to type whatever's on your mind..."></textarea>
 			<!--<input type="text" class="h-input" placeholder="please type whatever's on your mind...">-->
 		</form>
+		<div id="results-body" class="process-results">
+			<a id="process-back" class="hme arrow stay back"><- back</a>
+			<p id="txt"></p>
+			<p class="results-title">Results</p>
+		</div>
 		<p class="process-button">process</p>
-        <script src="css/jscripts/bias.js"></script>
-        <script src="css/jscripts/jquery-3.4.1.min.js"></script>
-        <script src="css/jscripts/require.js"></script>
+		<script src="css/jscripts/jquery-3.4.1.min.js"></script>
+        <script src="css/jscripts/howru.js"></script>
 	</body>
 </html>

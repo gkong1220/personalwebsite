@@ -1260,6 +1260,7 @@ video {
 //***********************HOWRU***************************//
 .howru-body {
   overflow-x: hidden;
+  background: white;
 }
 
 .h-input {
@@ -1278,6 +1279,7 @@ video {
 }
 
 .process-button {
+  cursor: pointer;
   padding-top: 1vh;
   padding-left: 1vw;
   padding-right: 1vw;
@@ -1293,13 +1295,39 @@ video {
   font-size: 2rem;
 
   &:hover {
-    background-color: $gold;
-    -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-transition: 2s; /* Firefox < 16 */
-    -ms-transition: 2s; /* Internet Explorer */
-    -o-transition: 2s; /* Opera < 12.1 */
-    transition: 2s;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-transition: 0.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-transition: 0.5s; /* Firefox < 16 */
+    -ms-transition: 0.5s; /* Internet Explorer */
+    -o-transition: 0.5s; /* Opera < 12.1 */
+    transition: 0.5s;
   }
+}
+
+.process-results {
+  justify-content: center;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  visibility: hidden;
+  z-index: 3;
+}
+
+.back {
+  cursor: pointer;
+}
+
+.results-title {
+  display: inline-block;
+  //position: relative;
+  top: 10vh;
+  font-size: 4rem;
+  //margin: 0 auto;
 }
 
 /* Hide scrollbar for IE and Edge */
