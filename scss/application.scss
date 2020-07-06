@@ -311,9 +311,10 @@ a.about-link {
 .mm-dropdown {
   float: right;
   overflow: hidden;
-  min-width: 6rem;
+  width: 6rem;
   justify-content: center;
   text-align: center;
+  padding-right: 1vw;
 }
 
 .mm-dropdown .dropdownbtn {
@@ -359,7 +360,6 @@ a.about-link {
 .games-dropdown {
   float: right;
   overflow: hidden;
-  //padding-left: 3vw;
   width: 6rem;
   justify-content: center;
   text-align: center;
@@ -481,7 +481,7 @@ header {
   display: block;
   padding-top: 5vh;
   font-size: 1.5rem;
-  color: $wolf;
+  color: rgba(141, 141, 141, 0.7);
   width: 100%;
   top: 15vh;
 }
@@ -1199,6 +1199,7 @@ video {
 }
 
 .playing-directions {
+  font-style: italic;
   -webkit-transition: 2s; /* Safari, Chrome and Opera > 12.1 */
   -moz-transition: 2s; /* Firefox < 16 */
   -ms-transition: 2s; /* Internet Explorer */
@@ -1255,6 +1256,10 @@ video {
   -ms-transition: 2s; /* Internet Explorer */
   -o-transition: 2s; /* Opera < 12.1 */
   transition: 2s;
+}
+
+.video-play-scroll-prompt {
+  color: transparent;
 }
 
 .leader-form {

@@ -621,11 +621,12 @@ a.about-link {
 .mm-dropdown {
   float: right;
   overflow: hidden;
-  min-width: 6rem;
+  width: 6rem;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   text-align: center;
+  padding-right: 1vw;
 }
 
 .mm-dropdown .dropdownbtn {
@@ -788,7 +789,7 @@ header {
   display: block;
   padding-top: 5vh;
   font-size: 1.5rem;
-  color: #8d8d8d;
+  color: rgba(141, 141, 141, 0.7);
   width: 100%;
   top: 15vh;
 }
@@ -1510,6 +1511,7 @@ video {
 }
 
 .playing-directions {
+  font-style: italic;
   -webkit-transition: 2s;
   /* Safari, Chrome and Opera > 12.1 */
   /* Firefox < 16 */
@@ -1576,6 +1578,10 @@ video {
   -o-transition: 2s;
   /* Opera < 12.1 */
   transition: 2s;
+}
+
+.video-play-scroll-prompt {
+  color: transparent;
 }
 
 .leader-form {

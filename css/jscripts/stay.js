@@ -215,6 +215,10 @@ window.addEventListener("keydown", function(event) {
                 document.getElementById(selectedScene).currentTime = 0;
                 document.getElementById(selectedScene).classList.remove("hide-scene");
                 document.getElementById(selectedScene).play();
+                
+                //scroll prompt
+                document.getElementById("scroll-prompt").classList.add("video-play-scroll-prompt");
+
                 timer = setTimeout(function() {
                     $(".scene-option.stay-action-active").addClass("stay-action-fade");
                     $(".song-option.stay-action-active").addClass("stay-action-fade");
@@ -254,6 +258,9 @@ window.addEventListener("keydown", function(event) {
                 document.getElementById("scene-menu").classList.remove("selected");
                 //sceneDropdown.classList.remove("active-dropdown-content");
                 //$(".scene-option.stay-action-active").removeClass("stay-action-active");
+
+                // scene playing scroll
+                document.getElementById("scroll-prompt").classList.remove("video-play-scroll-prompt");
                 selectedScene = null;
             }
 
@@ -299,6 +306,9 @@ var closeAll = function(lastClip) {
         //close scene
         document.getElementById("menu").classList.remove("media-playing");
         document.getElementById(lastClip).classList.add("hide-scene");
+
+        // scroll prompt restore
+        document.getElementById("scroll-prompt").classList.remove("video-play-scroll-prompt");
     }
 
     document.getElementById("scene-credit").textContent = "...";
