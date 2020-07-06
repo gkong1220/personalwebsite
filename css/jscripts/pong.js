@@ -12,14 +12,24 @@ canvas.height = canvas.width * (2/3);
 var context = canvas.getContext('2d');
 var keysDown = {};
 
-var player = new Player();
-var computer = new Computer();
+var player = null;
+var computer = null;
 var ball = new Ball(canvas.width/2, canvas.height/2);
 var scoreboard = new Scoreboard(0, 0);
 var sameMoveCount = 0;
 var playerSide = true;
 var lastMove = 0;
 var winner = null;
+
+var leftHanded = false;
+var setSide = false;
+
+//keyCodes 
+var handKeyCodes = {"left": [87, 83], "right": [38, 40]};
+
+//paddle dummies
+var rightDummy = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+var leftDummy = new Paddle(10, canvas.height/2 - 40, 10, 80);
 
 window.onload = function() {
     canvasParent.appendChild(canvas);
@@ -28,6 +38,19 @@ window.onload = function() {
 
 window.addEventListener("keydown", function(event) {
     keysDown[event.keyCode] = true;
+    if ((event.keyCode == 38 || event.keyCode == 40) && !setSide) {
+        console.log("Right");
+        leftHanded = false;
+        setSide = true;
+        player = new Player();
+        computer = new Computer();
+    } else if ((event.keyCode == 83 || event.keyCode == 87) && !setSide) {
+        console.log("Left");
+        leftHanded = true;
+        setSide = true;
+        player = new Player();
+        computer = new Computer();
+    }
     if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
         event.preventDefault();
     }
@@ -37,6 +60,18 @@ window.addEventListener("keyup", function(event) {
     delete keysDown[event.keyCode];
 });
 
+function countSameMoves(last, paddleY, count) {
+    if (last == paddleY) {
+        console.log('same-move');
+        count += 1;
+    }
+    else {
+        count = 0;
+    }
+    return [count, paddleY];
+    //lastMove = paddle2.y;
+}
+
 var step = function() {
     update();
     render();
@@ -45,17 +80,24 @@ var step = function() {
 };
 
 var update = function() {
-    player.update();
-    ball.update(player.paddle, computer.paddle);
-    computer.update(ball);
+    if (setSide) {
+        player.update();
+        ball.update(player.paddle, computer.paddle);
+        computer.update(ball);
+    } 
     scoreboard.reset();
 };
 
 var render = function () {
     context.fillStyle = "#000000";
     context.fillRect(0, 0, canvas.width, canvas.height);
-    player.render();
-    computer.render();
+    if (setSide) {
+        player.render();
+        computer.render();
+    } else {
+        leftDummy.render();
+        rightDummy.render();
+    }
     ball.render();
     scoreboard.render();
 };
@@ -76,10 +118,15 @@ function Scoreboard(player_score, cpu_score) {
 }
 
 Scoreboard.prototype.render = function() {
-    context.font = "3rem Arial";
+    context.font = "3rem Karla";
     context.fillStyle = "white";
-    context.fillText(this.cpu_score, canvas.width/4 - (context.measureText(this.cpu_score).width/2), canvas.height * 0.15);
-    context.fillText(this.player_score, canvas.width * 0.75 - (context.measureText(this.player_score).width / 2), canvas.height * 0.15);
+    if (leftHanded) {
+        context.fillText(this.player_score, canvas.width/4 - (context.measureText(this.cpu_score).width/2), canvas.height * 0.15);
+        context.fillText(this.cpu_score, canvas.width * 0.75 - (context.measureText(this.player_score).width / 2), canvas.height * 0.15);
+    } else {
+        context.fillText(this.cpu_score, canvas.width/4 - (context.measureText(this.cpu_score).width/2), canvas.height * 0.15);
+        context.fillText(this.player_score, canvas.width * 0.75 - (context.measureText(this.player_score).width / 2), canvas.height * 0.15);
+    }
     if (this.player_score == 21 || this.cpu_score == 21 ) {
         winner = this.player_score > this.cpu_score ? "Player" : "CPU";
         context.font = "1.5rem Arial";
@@ -93,6 +140,15 @@ Scoreboard.prototype.render = function() {
                 scoreboard = new Scoreboard(0, 0);
                 ball = new Ball(canvas.width / 2, canvas.height / 2);
             }
+        }
+    }
+
+    // if space bar before setting side
+    for (var key in keysDown) {
+        if (Number(key) == 32 && !setSide) {
+            context.font = "1rem Karla";
+            context.fillStyle = "white";
+            context.fillText("Set left or right paddle as your preferred side before first serve.", canvas.width / 2 - context.measureText("Set left or right paddle as your preferred side first before first serve.").width / 2, canvas.height*0.75);
         }
     }
 }
@@ -151,24 +207,47 @@ Player.prototype.render = function () {
 Player.prototype.update = function () {
     for (var key in keysDown) {
         var value = Number(key);
-        if (value == 38) { // up arrow
-            this.paddle.move(0, -4);
-        } else if (value == 40) { // down arrow
-            this.paddle.move(0, 4);
+        if (!leftHanded) {
+            if (value == 38) { // up arrow
+                this.paddle.move(0, -4);
+            } else if (value == 40) { // down arrow
+                this.paddle.move(0, 4);
+            } else {
+                this.paddle.move(0, 0);
+            }
         } else {
-            this.paddle.move(0, 0);
+            if (value == handKeyCodes["left"][0]) { // up arrow
+                this.paddle.move(0, -4);
+            } else if (value == handKeyCodes["left"][1]) { // down arrow
+                this.paddle.move(0, 4);
+            } else {
+                this.paddle.move(0, 0);
+            }
         }
     }
 };
 
 function Player() {
-    this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+    if (setSide && !leftHanded) {
+        console.log("right side");
+        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+    } else if (setSide && leftHanded) {
+        console.log("left-side");
+        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80);
+    }
 }
 
 Computer.prototype.update = function (ball) {
     var y_pos = ball.y;
     var diff = -((this.paddle.y + (this.paddle.height / 2)) - y_pos);
-    if (sameMoveCount == 1 && ball.x < canvas.width * 0.75 && ball.x > canvas.width/4 && ball.x_speed < 0) {
+    var ballDirection;
+    if (!leftHanded) {
+        ballDirection = ball.x_speed < 0;
+    } else {
+        ballDirection = ball.x_speed > 0;
+    }
+    if (sameMoveCount == 1 && ball.x < canvas.width * 0.75 && ball.x > canvas.width/4 && ballDirection) {
+        console.log("detected");
         diff = 2;
     } else if (diff < -4) { // max speed left
         diff = -4;
@@ -188,7 +267,11 @@ Computer.prototype.render = function () {
 };
  
 function Computer() {
-   this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80);
+    if (setSide && !leftHanded) {
+        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80);
+    } else if (setSide && leftHanded) {
+        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+    }
  }
   
 function Ball(x, y) {
@@ -201,7 +284,11 @@ function Ball(x, y) {
         var value = Number(key);
         if (value == 32){
             this.y_speed = 0;
-            this.x_speed = 6;
+            if (leftHanded) {
+                this.x_speed = -6;
+            } else {
+                this.x_speed = 6;
+            }
         }
     }
   }
@@ -214,6 +301,12 @@ Ball.prototype.render = function() {
   };
 
 Ball.prototype.update = function(paddle1, paddle2) {
+    if (leftHanded) {
+        var temp = paddle1;
+        paddle1 = paddle2;
+        paddle2 = temp;
+    }
+
     this.x += this.x_speed;
     this.y += this.y_speed;
     var left_x = this.x - 5;
@@ -230,12 +323,22 @@ Ball.prototype.update = function(paddle1, paddle2) {
         this.y_speed = -this.y_speed;
     }
 
+    // scoring
     if (this.x > canvas.width || this.x < 0) {
-        if (this.x > canvas.width) {
-            scoreboard.update("cpu");
-        }
-        else if (this.x < 0) {
-            scoreboard.update("player");
+        if (!leftHanded) {
+            if (this.x > canvas.width) {
+                scoreboard.update("cpu");
+            }
+            else if (this.x < 0) {
+                scoreboard.update("player");
+            }
+        } else {
+            if (this.x > canvas.width) {
+                scoreboard.update("player");
+            }
+            else if (this.x < 0) {
+                scoreboard.update("cpu");
+            }
         }
         this.x = canvas.width/2;
         this.y = canvas.height/2;
@@ -243,37 +346,46 @@ Ball.prototype.update = function(paddle1, paddle2) {
         this.x_speed = 0;
     }
 
+    // wait for serve
     if (this.x == canvas.width/2 && this.y == canvas.height/2 && this.y_speed == 0 && this.x_speed == 0) {
         for (var key in keysDown){
             var value = Number(key);
             if (value == 32){
                 this.y_speed = 0;
-                this.x_speed = 5;
+                if (!leftHanded) {
+                    this.x_speed = 5;
+                } else {
+                    this.x_speed = -5;
+                }
             }
         }
     }
 
+    // determine behavior when hitting paddles
     if(right_x > canvas.width/2) {
         if(left_x < (paddle1.x + paddle1.width) && right_x > paddle1.x && bottom_y > paddle1.y && top_y < (paddle1.y + paddle1.height)) {
-          // hit the player's paddle
+          // hit right paddle
           this.x_speed = -5;
           this.y_speed += (paddle1.y_speed / 2);
           this.x += this.x_speed;
+          if (leftHanded) {
+            var moveDetect = countSameMoves(lastMove, paddle2.y, sameMoveCount);
+            sameMoveCount = moveDetect[0];
+            lastMove = moveDetect[1];
+          }
         }
     } 
     else {
         if(left_x < (paddle2.x + paddle2.width) && right_x > paddle2.x && bottom_y > paddle2.y && top_y < (paddle2.y + paddle2.height)) {
-            // hit the computer's paddle
+            // hit left paddle
             this.x_speed = 5;
             this.y_speed += (paddle2.y_speed / 2);
             this.x += this.x_speed;
-            if (lastMove == paddle2.y) {
-                sameMoveCount += 1;
+            if (!leftHanded) {
+                var moveDetect = countSameMoves(lastMove, paddle1.y, sameMoveCount);
+                sameMoveCount = moveDetect[0];
+                lastMove = moveDetect[1];
             }
-            else {
-                sameMoveCount = 0;
-            }
-            lastMove = paddle2.y;
         }
     }
 };

@@ -1190,12 +1190,13 @@ video {
 
 .credits {
   color: transparent;
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: auto;
   overflow: hidden;
-  top: 180vh;
+  top: 80vh;
   left: 5vw;
+  z-index: 2;
 }
 
 .playing-directions {
