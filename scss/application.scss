@@ -924,11 +924,12 @@ a.stuffs{
 }
 
 a.arrow {
+  position: fixed;
   top: 5vh;
   left: 5vw;
   text-decoration: none;
   color: rgb(219, 217, 217);
-  position: relative;
+  //position: relative;
   font-size: 1.3rem;
   z-index: 2;
 
