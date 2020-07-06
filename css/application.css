@@ -359,11 +359,21 @@ a.right {
 }
 
 body {
+  overflow: overlay;
   font-family: "Karla", sans-serif;
   position: relative;
   background-color: transparent;
   background-size: cover;
   margin: 0;
+}
+
+.landing {
+  width: 50vw;
+  margin: 0 auto;
+  text-align: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .standard-content-body {
@@ -374,9 +384,9 @@ body {
 }
 
 .stay-body {
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100vw;
-  height: auto;
+  height: 200vh;
   margin: 0;
 }
 
@@ -817,12 +827,15 @@ header {
 }
 
 .creatives-content-scroll-prompt {
+  overflow-x: hidden;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: 1rem;
   width: 50vw;
-  margin: auto;
+  margin: 0 auto;
   top: 95vh;
   position: absolute;
-  display: block;
   color: #0e0d0d;
   -webkit-transition: 1s;
   /* Safari, Chrome and Opera > 12.1 */
@@ -834,7 +847,7 @@ header {
 }
 
 .creatives-content-scroll-prompt.scrolled {
-  color: #ffffff;
+  color: transparent;
 }
 
 .about {
@@ -1336,7 +1349,7 @@ iframe {
   text-justify: left;
   float: left;
   position: relative;
-  top: 50vh;
+  top: 110vh;
   left: 55vw;
   width: 30vw;
   color: black;
@@ -1492,7 +1505,7 @@ video {
   width: 100vw;
   height: auto;
   overflow: hidden;
-  top: 80vh;
+  top: 180vh;
   left: 5vw;
 }
 
@@ -1681,7 +1694,7 @@ video {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: transparent;
 }
 
 /* Handle */

@@ -186,6 +186,7 @@ $(document).mousemove(function() {
             document.getElementById("scene-credit").classList.add("active");
             document.getElementById("song-credit").textContent = songTitles[selectedSong];
             document.getElementById("song-credit").classList.add("active");
+            document.getElementById("press-space").textContent = "(press space-key anytime to stop)"
             document.getElementById("press-space").classList.add("active");
         }
 
@@ -245,11 +246,6 @@ window.addEventListener("keydown", function(event) {
                 }
                 playing = true;
             }
-
-            if (selectedScene) {
-                document.getElementById("press-space").textContent = "(press space-key anytime to stop)"
-                document.getElementById("press-space").classList.add("active");
-            } 
         } else if (playing) {
             if (selectedScene != null && !document.getElementById(selectedScene).paused) {
                 document.getElementById(selectedScene).pause();
@@ -342,6 +338,15 @@ var closeAll = function(lastClip) {
     $(".sound-option.stay-action-fade").removeClass("stay-action-fade");
     console.log("closed-all");
 }
+
+$(function () {
+    $(document).scroll(function () {
+        if (!playing || selectedScene == null) {
+            var $nav = $(".creatives-content-scroll-prompt");
+            $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+        } 
+      });
+  });
 
 /*
 var fadeMenu = function(timer) {
