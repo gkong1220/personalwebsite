@@ -8,17 +8,43 @@
 	</head>
 	<body class="howru-body">
 		<a class="hme arrow stay" href="index.html"><- home</a>
-		<form>
+		<div class="landing">
+            <div class="creatives-content-title">howru?</div>
+            <div class="creatives-content-subtitle">a safe space to vent, reflect, anything you need</div>
+            <div id="scroll-prompt" class="creatives-content-scroll-prompt">(scroll for content)</div>
+        </div>
+		<form class="howru-form">
 			<textarea id="Text1" cols="40" rows="13" class="h-input" placeholder="please feel free to type whatever's on your mind..."></textarea>
 			<!--<input type="text" class="h-input" placeholder="please type whatever's on your mind...">-->
 		</form>
 		<div id="results-body" class="process-results">
-			<a id="process-back" class="hme arrow stay back"><- back</a>
+			<a id="process-back" class="back"><- back to journal</a>
 			<p id="txt"></p>
 			<p class="results-title">Results</p>
+			<div class="results-report-body">
+				<div class="most-used">
+					<p class="results-subtitle">Most used words: </p>
+						<ul class="most-used-list">
+							<li id="most-used-1" class="most-used-entry"></li>
+							<li id="most-used-2" class="most-used-entry"></li>
+							<li id="most-used-3" class="most-used-entry"></li>
+						</ul>
+				</div>
+				<div class="sentiment">
+					<p class="results-subtitle">Looks like you're feeling:</p>
+					<p id="sentiment-message" class="sentiment-content"></p>
+					<p id="sentiment-stats" class="sentiment-stats"></p>
+				</div>
+			</div>
 		</div>
 		<p class="process-button">process</p>
 		<script src="css/jscripts/jquery-3.4.1.min.js"></script>
+		<script src="css/jscripts/require.js"></script>
+		<script src="css/jscripts/words_dictionary.json"></script>
+		<script src="css/jscripts/positive.json"></script>
+		<script src="css/jscripts/negative.json"></script>
+		<script src="css/jscripts/ignore.json"></script>
+		<script src="css/jscripts/scrollmore.js"></script>
         <script src="css/jscripts/howru.js"></script>
 	</body>
 </html>

@@ -172,17 +172,18 @@ Scoreboard.prototype.reset = function() {
     }
 }
 
-function Paddle(x, y, width, height) {
+function Paddle(x, y, width, height, color="#FFFFFF") {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.x_speed = 0;
     this.y_speed = 0;
+    this.color = color;
   }
   
 Paddle.prototype.render = function() {
-    context.fillStyle = "#FFFFFF";
+    context.fillStyle = this.color;
     context.fillRect(this.x, this.y, this.width, this.height);
 };
 
@@ -230,10 +231,10 @@ Player.prototype.update = function () {
 function Player() {
     if (setSide && !leftHanded) {
         console.log("right side");
-        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80, "#F8C018");
     } else if (setSide && leftHanded) {
         console.log("left-side");
-        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80);
+        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80, "#F8C018");
     }
 }
 
