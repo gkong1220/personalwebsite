@@ -1046,6 +1046,7 @@ iframe {
   left: 55vw;
   width: 30vw;
   color: black;
+  z-index: 3;
 
   -webkit-transition: 1s; /* Safari, Chrome and Opera > 12.1 */
   -moz-transition: 1s; /* Firefox < 16 */
