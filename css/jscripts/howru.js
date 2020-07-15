@@ -1,7 +1,7 @@
 //var jsonDictionary = require("./words_dictionary.json")
 var wordsDetected = {"validWords": {}, "invalidWords": {}};
 var sentimentCounter = {"positive": 0, "negative": 0};
-var sentimentMessages = {0: "\"Really down?, r u ok? :(\"", 1: "\"Kinda down, r u doing aight? :/\"", 2: "\"ok - not much to complain about :}\"", 3: "\"good - like u shouldx :)\"", 4: "\"Really thriving out here :))\""}
+var sentimentMessages = {0: "\"Really down?, r u ok? :(\"", 1: "\"Kinda down, r u doing aight? :/\"", 2: "\"ok - not much to complain about :}\"", 3: "\"good - like u should :)\"", 4: "\"Really thriving out here :))\""}
 
 $(".process-button").click(function() {
     console.log("clicked");
