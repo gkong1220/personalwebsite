@@ -12,6 +12,7 @@ $dark-blue: #011f4b;
 $white: #ffffff;
 $pebble: #5C5C5C;
 $wolf: rgb(141, 141, 141);
+$elephant: rgb(219, 217, 217);
 $gold: rgb(255, 217, 102);
 $batman: #9c9a9a;
 $socks: rgb(219, 217, 217);
@@ -73,7 +74,60 @@ body.creatives-landing {
   text-align: left;
   overflow: hidden;
 }
+//***********************Info*****************************//
 
+.info-body {
+  position: fixed;
+  top: 10vh;
+  margin-left: 60vw;
+  margin-right: 10vw;
+  padding: 2rem;
+  max-height: 70vh;
+  height: auto;
+  width: 30vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 2rem;
+  z-index: 5;
+  visibility: hidden;
+}
+
+.info-visible {
+  -webkit-animation: fadein 0.5s ease-in-out; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.5s ease-in-out; /* Firefox < 16 */
+   -ms-animation: fadein 0.5s ease-in-out; /* Internet Explorer */
+    -o-animation: fadein 0.5s ease-in-out; /* Opera < 12.1 */
+       animation: fadein 0.5s ease-in-out;
+  visibility: visible;
+}
+
+.info-content {
+  max-height: 70vh;
+  height: auto;
+  width: 30vw;
+  padding: 0.7rem;
+  border-radius: 1.4rem;
+  overflow-y: auto;
+}
+
+.info-title {
+  color: gold;
+  font-size: 3rem;
+}
+
+.info-text {
+  color: white;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+.info-button {
+  position: fixed;
+  z-index: 5;
+  top: 5vh;
+  left: 95vw;
+  border-radius: 5rem;
+  font-size: 2rem;
+}
 //***********************Home Page*****************************//
 
 body.home_page { 
@@ -166,6 +220,25 @@ body.home_page {
 
   &:hover {
     background-color: #bc2a8d;
+  }
+}
+
+.fa-question-circle {
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  transition: .5s;
+  background-color: transparent;
+  border: none;
+  height: 4rem;
+  padding: 0;
+  color: $elephant;
+  font-size: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    color: $gold;
   }
 }
 

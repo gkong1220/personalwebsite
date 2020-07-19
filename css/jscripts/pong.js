@@ -38,13 +38,13 @@ window.onload = function() {
 
 window.addEventListener("keydown", function(event) {
     keysDown[event.keyCode] = true;
-    if ((event.keyCode == 38 || event.keyCode == 40) && !setSide) {
+    if ((event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 39) && !setSide) {
         console.log("Right");
         leftHanded = false;
         setSide = true;
         player = new Player();
         computer = new Computer();
-    } else if ((event.keyCode == 83 || event.keyCode == 87) && !setSide) {
+    } else if ((event.keyCode == 83 || event.keyCode == 87 || event.keyCode == 37) && !setSide) {
         console.log("Left");
         leftHanded = true;
         setSide = true;
@@ -166,6 +166,7 @@ Scoreboard.prototype.reset = function() {
     for (var key in keysDown) {
         var value = Number(key);
         if (value == 78) {
+            sameMoveCount = 0;
             scoreboard = new Scoreboard(0, 0);
             ball = new Ball(canvas.width/2, canvas.height/2);
         }
@@ -250,10 +251,10 @@ Computer.prototype.update = function (ball) {
     if (sameMoveCount == 1 && ball.x < canvas.width * 0.75 && ball.x > canvas.width/4 && ballDirection) {
         console.log("detected");
         diff = 2;
-    } else if (diff < -4) { // max speed left
-        diff = -4;
-    } else if (diff > 4) { // max speed right
-        diff = 4;
+    } else if (diff < -5) { // max speed left
+        diff = -5;
+    } else if (diff > 5) { // max speed right
+        diff = 5;
     } 
     this.paddle.move(0, diff);
     if (this.paddle.y < 0) {
