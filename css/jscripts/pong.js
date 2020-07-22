@@ -251,10 +251,10 @@ Computer.prototype.update = function (ball) {
     if (sameMoveCount == 1 && ball.x < canvas.width * 0.75 && ball.x > canvas.width/4 && ballDirection) {
         console.log("detected");
         diff = 2;
-    } else if (diff < -5) { // max speed left
-        diff = -5;
-    } else if (diff > 5) { // max speed right
-        diff = 5;
+    } else if (diff < -6) { // max speed left
+        diff = -6;
+    } else if (diff > 6) { // max speed right
+        diff = 6;
     } 
     this.paddle.move(0, diff);
     if (this.paddle.y < 0) {
