@@ -71,6 +71,9 @@ $(".back").click(function() {
     wordsDetected = {"validWords": {}, "invalidWords": {}};
     sentimentCounter = {"positive": 0, "negative": 0};
     document.getElementById("results-body").style.visibility = "hidden";
+    for (var i = 0; i < 3; i++) {
+        document.getElementById(`most-used-${i + 1}`).innerHTML = "";
+    }
 })
 
 

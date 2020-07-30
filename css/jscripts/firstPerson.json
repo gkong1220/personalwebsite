@@ -1,0 +1,5 @@
+var firstPerson = {
+    "i": 1,
+    "me": 1,
+    "my": 1,
+}
