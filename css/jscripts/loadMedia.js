@@ -37,15 +37,16 @@ for (var i = 0; i < videoNames.length; i++) {
             var range = 0;
             var bf = this.buffered;
             var time = this.currentTime;
-        
-            while(!(bf.start(range) <= time && time <= bf.end(range))) {
-                range += 1;
+            if (this.buffered.length > 0) {
+                while(!(bf.start(range) <= time && time <= bf.end(range))) {
+                    range += 1;
+                }
+                var loadStartPercentage = bf.start(range) / this.duration;
+                var loadEndPercentage = bf.end(range) / this.duration;
+                var percent = (loadEndPercentage - loadStartPercentage) * 100;
+                videoProgresses[currVideoName] = percent;
+                calcTotalProgress(videoProgresses, songProgresses);
             }
-            var loadStartPercentage = bf.start(range) / this.duration;
-            var loadEndPercentage = bf.end(range) / this.duration;
-            var percent = (loadEndPercentage - loadStartPercentage) * 100;
-            videoProgresses[currVideoName] = percent;
-            calcTotalProgress(videoProgresses, songProgresses);
         });
     }
 }
@@ -64,15 +65,16 @@ for (var j = 0; j < songNames.length; j++) {
             var range = 0;
             var bf = this.buffered;
             var time = this.currentTime;
-        
-            while(!(bf.start(range) <= time && time <= bf.end(range))) {
-                range += 1;
+            if (this.buffered.length > 0) {
+                while(!(bf.start(range) <= time && time <= bf.end(range))) {
+                    range += 1;
+                }
+                var loadStartPercentage = bf.start(range) / this.duration;
+                var loadEndPercentage = bf.end(range) / this.duration;
+                var percent = (loadEndPercentage - loadStartPercentage) * 100;
+                songProgresses[currSongName] = percent;
+                calcTotalProgress(videoProgresses, songProgresses);
             }
-            var loadStartPercentage = bf.start(range) / this.duration;
-            var loadEndPercentage = bf.end(range) / this.duration;
-            var percent = (loadEndPercentage - loadStartPercentage) * 100;
-            songProgresses[currSongName] = percent;
-            calcTotalProgress(videoProgresses, songProgresses);
         });
     }
 }
