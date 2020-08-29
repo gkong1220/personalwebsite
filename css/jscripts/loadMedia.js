@@ -17,6 +17,8 @@ var calcTotalProgress = function(vidProgressList, songProgressList) {
         progressSum += songProgressList[progress];
     }
     totalProgress = (progressSum / (Object.keys(vidProgressList).length + Object.keys(songProgressList).length));
+    console.log(vidProgressList);
+    console.log(songProgressList);
     document.getElementById("percent-display").textContent = `${totalProgress}%`;
     if (totalProgress == 100) {
         document.getElementById("loading").classList.add("finished");
