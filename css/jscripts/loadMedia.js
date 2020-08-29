@@ -38,6 +38,7 @@ for (var i = 0; i < videoNames.length; i++) {
             var bf = this.buffered;
             var time = this.currentTime;
             if (this.buffered.length > 0) {
+                console.log(`${currVideoName} going.`);
                 while(!(bf.start(range) <= time && time <= bf.end(range))) {
                     range += 1;
                 }
@@ -46,6 +47,8 @@ for (var i = 0; i < videoNames.length; i++) {
                 var percent = (loadEndPercentage - loadStartPercentage) * 100;
                 videoProgresses[currVideoName] = percent;
                 calcTotalProgress(videoProgresses, songProgresses);
+            } else {
+                console.log(`${currVideoName} stuck.`);
             }
         });
     }
@@ -66,6 +69,7 @@ for (var j = 0; j < songNames.length; j++) {
             var bf = this.buffered;
             var time = this.currentTime;
             if (this.buffered.length > 0) {
+                console.log(`${currSongName} going.`);
                 while(!(bf.start(range) <= time && time <= bf.end(range))) {
                     range += 1;
                 }
@@ -74,6 +78,8 @@ for (var j = 0; j < songNames.length; j++) {
                 var percent = (loadEndPercentage - loadStartPercentage) * 100;
                 songProgresses[currSongName] = percent;
                 calcTotalProgress(videoProgresses, songProgresses);
+            } else {
+                console.log(`${currSongName} stuck.`);
             }
         });
     }
