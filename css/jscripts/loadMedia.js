@@ -16,11 +16,15 @@ var calcTotalProgress = function(vidProgressList, songProgressList) {
     for (progress in songProgressList) {
         progressSum += songProgressList[progress];
     }
-    totalProgress = (progressSum / (Object.keys(vidProgressList).length + Object.keys(songProgressList).length));
+    totalProgress = ((progressSum / (Object.keys(vidProgressList).length + Object.keys(songProgressList).length)) / 0.5) * 100;
     console.log(vidProgressList);
     console.log(songProgressList);
-    document.getElementById("percent-display").textContent = `${totalProgress}%`;
-    if (totalProgress == 100) {
+    if (totalProgress <= 0.5) {
+        document.getElementById("percent-display").textContent = `${totalProgress.toFixed(2)}%`;
+    } else if (totalProgress > 0.5) {
+        document.getElementById("percent-display").textContent = `100%`;
+    }
+    if (totalProgress >= 0.5) {
         document.getElementById("loading").classList.add("finished");
     }
 }
