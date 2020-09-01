@@ -11,6 +11,6 @@ $(function () {
     var usingChrome = isIOSChrome || isChrome !== null && typeof isChrome !== "undefined" && vendorName == "Google Inc." && isOpera === false && isIEedge === false;
     console.log(usingChrome);
     if (!usingChrome) {
-        window.alert("Hello :) This website is best experienced in Chrome. Some features may not be full supported.");
+        window.alert("Hello :) This website is best experienced in desktop Chrome. Some features may not be fully supported. Thanks!");
     }
 });
