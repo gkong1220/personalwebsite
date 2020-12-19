@@ -24,12 +24,17 @@ var winner = null;
 var leftHanded = false;
 var setSide = false;
 
+var paddleWidth = canvas.width/150;
+var paddleHeight = canvas.width/15;
+
+var paddleMove = paddleHeight/15;
+
 //keyCodes 
 var handKeyCodes = {"left": [87, 83], "right": [38, 40]};
 
 //paddle dummies
-var rightDummy = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
-var leftDummy = new Paddle(10, canvas.height/2 - 40, 10, 80);
+var rightDummy = new Paddle(canvas.width - 20, canvas.height/2 - 40, paddleWidth, paddleHeight);
+var leftDummy = new Paddle(10, canvas.height/2 - 40, paddleWidth, paddleHeight);
 
 window.onload = function() {
     canvasParent.appendChild(canvas);
@@ -211,17 +216,17 @@ Player.prototype.update = function () {
         var value = Number(key);
         if (!leftHanded) {
             if (value == 38) { // up arrow
-                this.paddle.move(0, -4);
+                this.paddle.move(0, -paddleMove);
             } else if (value == 40) { // down arrow
-                this.paddle.move(0, 4);
+                this.paddle.move(0, paddleMove);
             } else {
                 this.paddle.move(0, 0);
             }
         } else {
             if (value == handKeyCodes["left"][0]) { // up arrow
-                this.paddle.move(0, -4);
+                this.paddle.move(0, -paddleMove);
             } else if (value == handKeyCodes["left"][1]) { // down arrow
-                this.paddle.move(0, 4);
+                this.paddle.move(0, paddleMove);
             } else {
                 this.paddle.move(0, 0);
             }
@@ -232,10 +237,10 @@ Player.prototype.update = function () {
 function Player() {
     if (setSide && !leftHanded) {
         console.log("right side");
-        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80, "#F8C018");
+        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, paddleWidth, paddleHeight, "#F8C018");
     } else if (setSide && leftHanded) {
         console.log("left-side");
-        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80, "#F8C018");
+        this.paddle = new Paddle(10, canvas.height/2 - 40, paddleWidth, paddleHeight, "#F8C018");
     }
 }
 
@@ -250,11 +255,11 @@ Computer.prototype.update = function (ball) {
     }
     if (sameMoveCount == 1 && ball.x < canvas.width * 0.75 && ball.x > canvas.width/4 && ballDirection) {
         console.log("detected");
-        diff = 2;
-    } else if (diff < -6) { // max speed left
-        diff = -6;
-    } else if (diff > 6) { // max speed right
-        diff = 6;
+        diff = paddleMove / 2;
+    } else if (diff < -(paddleMove * 1.25)) { // max speed left
+        diff = -(paddleMove * 1.25);
+    } else if (diff > (paddleMove * 1.25)) { // max speed right
+        diff = paddleMove * 1.25;
     } 
     this.paddle.move(0, diff);
     if (this.paddle.y < 0) {
@@ -270,9 +275,9 @@ Computer.prototype.render = function () {
  
 function Computer() {
     if (setSide && !leftHanded) {
-        this.paddle = new Paddle(10, canvas.height/2 - 40, 10, 80);
+        this.paddle = new Paddle(10, canvas.height/2 - 40, paddleWidth, paddleHeight);
     } else if (setSide && leftHanded) {
-        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, 10, 80);
+        this.paddle = new Paddle(canvas.width - 20, canvas.height/2 - 40, paddleWidth, paddleHeight);
     }
  }
   
@@ -281,15 +286,15 @@ function Ball(x, y) {
     this.y = y;
     this.y_speed = 0;
     this.x_speed = 0;
-    this.radius = 5;
+    this.radius = canvas.width * 0.005;
     for (var key in keysDown){
         var value = Number(key);
         if (value == 32){
             this.y_speed = 0;
             if (leftHanded) {
-                this.x_speed = -6;
+                this.x_speed = -this.radius;
             } else {
-                this.x_speed = 6;
+                this.x_speed = this.radius;
             }
         }
     }
@@ -355,9 +360,9 @@ Ball.prototype.update = function(paddle1, paddle2) {
             if (value == 32){
                 this.y_speed = 0;
                 if (!leftHanded) {
-                    this.x_speed = 5;
+                    this.x_speed = this.radius;
                 } else {
-                    this.x_speed = -5;
+                    this.x_speed = -this.radius;
                 }
             }
         }
@@ -367,7 +372,7 @@ Ball.prototype.update = function(paddle1, paddle2) {
     if(right_x > canvas.width/2) {
         if(left_x < (paddle1.x + paddle1.width) && right_x > paddle1.x && bottom_y > paddle1.y && top_y < (paddle1.y + paddle1.height)) {
           // hit right paddle
-          this.x_speed = -5;
+          this.x_speed = -this.radius;
           this.y_speed += (paddle1.y_speed / 2);
           this.x += this.x_speed;
           if (leftHanded) {
@@ -380,7 +385,7 @@ Ball.prototype.update = function(paddle1, paddle2) {
     else {
         if(left_x < (paddle2.x + paddle2.width) && right_x > paddle2.x && bottom_y > paddle2.y && top_y < (paddle2.y + paddle2.height)) {
             // hit left paddle
-            this.x_speed = 5;
+            this.x_speed = this.radius;
             this.y_speed += (paddle2.y_speed / 2);
             this.x += this.x_speed;
             if (!leftHanded) {

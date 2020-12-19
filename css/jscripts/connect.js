@@ -325,7 +325,7 @@ Chip.prototype.move = function(col) {
 Chip.prototype.dummy = function() {
     if (dropTrigger) {
         this.y += this.speed;
-        if (this.y <= this.dest[0][1] + 3 && this.y >= this.dest[0][1] - 3) {
+        if (this.y <= this.dest[0][1] + (this.speed * 2) && this.y >= this.dest[0][1] - (this.speed * 2)) {
             dropTrigger = false;
             playerTurn = !playerTurn;
             board.update(this.dest, this.owner);
